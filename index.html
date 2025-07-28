@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepBolt AI - Intelligent Assistant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #0f0f23;
+            color: #e1e7ef;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Sparkle Animation */
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        .sparkle {
+            position: relative;
+            display: inline-block;
+        }
+
+        .sparkle::before,
+        .sparkle::after {
+            content: '✨';
+            position: absolute;
+            font-size: 0.8em;
+            animation: sparkle 2s infinite;
+            pointer-events: none;
+        }
+
+        .sparkle::before {
+            top: -10px;
+            left: -15px;
+            animation-delay: 0s;
+        }
+
+        .sparkle::after {
+            bottom: -10px;
+            right: -15px;
+            animation-delay: 1s;
+        }
+
+        .sparkle-text {
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-shift 3s ease infinite, sparkle-glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes sparkle-glow {
+            from { filter: brightness(1) drop-shadow(0 0 5px rgba(102, 126, 234, 0.3)); }
+            to { filter: brightness(1.2) drop-shadow(0 0 15px rgba(102, 126, 234, 0.6)); }
+        }
+
+        /* Main App Container */
+        .app-container {
+            height: 100vh;
+            display: flex;
+            background: #0f0f23;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background: #1a1a2e;
+            border-right: 1px solid #2a2a42;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar.collapsed {
+            width: 0;
+            overflow: hidden;
+        }
+
+        .sidebar-header {
+            padding: 20px 16px;
+            border-bottom: 1px solid #2a2a42;
+        }
+
+        .app-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            position: relative;
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: 700;
+            color: #e1e7ef;
+        }
+
+        .new-chat-btn {
+            width: 100%;
+            padding: 12px 16px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .new-chat-btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-1px);
+        }
+
+        .conversations-section {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+        }
+
+        .section-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: #8b9dc3;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            padding: 0 4px;
+        }
+
+        .conversation-item {
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 2px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #b8c5d1;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+        }
+
+        .conversation-item:hover {
+            background: #2a2a42;
+        }
+
+        .conversation-item.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .conversation-item .conversation-text {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            flex: 1;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #0f0f23;
+        }
+
+        .chat-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid #2a2a42;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #1a1a2e;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .menu-toggle {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: #2a2a42;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #b8c5d1;
+            transition: all 0.2s ease;
+        }
+
+        .menu-toggle:hover {
+            background: #3a3a52;
+        }
+
+        .chat-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e1e7ef;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .control-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: #2a2a42;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            color: #b8c5d1;
+        }
+
+        .control-btn:hover {
+            background: #3a3a52;
+        }
+
+        /* Chat Messages */
+        .chat-messages {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+
+        .welcome-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .welcome-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .welcome-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #e1e7ef;
+            margin-bottom: 12px;
+        }
+
+        .welcome-subtitle {
+            font-size: 16px;
+            color: #8b9dc3;
+            margin-bottom: 32px;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 12px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .quick-action {
+            background: #1a1a2e;
+            border: 1px solid #2a2a42;
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+        }
+
+        .quick-action:hover {
+            background: #2a2a42;
+            border-color: #667eea;
+        }
+
+        .quick-action h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #e1e7ef;
+            margin-bottom: 4px;
+        }
+
+        .quick-action p {
+            font-size: 12px;
+            color: #8b9dc3;
+            line-height: 1.4;
+        }
+
+        /* Message Bubbles */
+        .message {
+            display: flex;
+            margin-bottom: 20px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message.ai {
+            justify-content: flex-start;
+        }
+
+        .message-content {
+            max-width: 80%;
+            padding: 14px 16px;
+            border-radius: 12px;
+            position: relative;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .message.user .message-content {
+            background: #667eea;
+            color: white;
+        }
+
+        .message.ai .message-content {
+            background: #1a1a2e;
+            color: #e1e7ef;
+            border: 1px solid #2a2a42;
+        }
+
+        .message-meta {
+            font-size: 11px;
+            color: #8b9dc3;
+            margin-top: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .message-actions {
+            display: flex;
+            gap: 6px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .message:hover .message-actions {
+            opacity: 1;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            color: #8b9dc3;
+            width: 16px;
+            height: 16px;
+        }
+
+        .action-btn:hover {
+            color: #e1e7ef;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* AI Response Formatting */
+        .ai-response {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .ai-response h1, .ai-response h2, .ai-response h3 {
+            color: #e1e7ef;
+            margin: 12px 0 8px 0;
+            font-weight: 600;
+        }
+
+        .ai-response h1 { font-size: 18px; }
+        .ai-response h2 { font-size: 16px; }
+        .ai-response h3 { font-size: 14px; }
+
+        .ai-response p {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+
+        .ai-response ul, .ai-response ol {
+            margin: 8px 0;
+            padding-left: 20px;
+        }
+
+        .ai-response li {
+            margin: 4px 0;
+        }
+
+        .ai-response code {
+            background: #2a2a42;
+            color: #f8f8f2;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+
+        .ai-response pre {
+            background: #2a2a42;
+            color: #f8f8f2;
+            padding: 12px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 8px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+
+        .ai-response blockquote {
+            border-left: 3px solid #667eea;
+            padding-left: 12px;
+            margin: 8px 0;
+            color: #b8c5d1;
+            font-style: italic;
+        }
+
+        /* Typing Indicator */
+        .typing-indicator {
+            display: flex;
+            margin-bottom: 20px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .typing-content {
+            background: #1a1a2e;
+            border: 1px solid #2a2a42;
+            border-radius: 12px;
+            padding: 14px 16px;
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #667eea;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Input Area */
+        .chat-input {
+            padding: 16px 24px;
+            border-top: 1px solid #2a2a42;
+            background: #1a1a2e;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+            max-width: 100%;
+            background: #0f0f23;
+            border: 1px solid #2a2a42;
+            border-radius: 12px;
+            padding: 4px;
+        }
+
+        .input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .message-input {
+            width: 100%;
+            min-height: 44px;
+            max-height: 120px;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: none;
+            outline: none;
+            background: transparent;
+            color: #e1e7ef;
+            line-height: 1.5;
+        }
+
+        .message-input::placeholder {
+            color: #8b9dc3;
+        }
+
+        .input-btn {
+            width: 44px;
+            height: 44px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .mic-btn {
+            background: #2a2a42;
+            color: #b8c5d1;
+        }
+
+        .mic-btn:hover {
+            background: #3a3a52;
+        }
+
+        .mic-btn.listening {
+            background: #ef4444;
+            color: white;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .send-btn {
+            background: #667eea;
+            color: white;
+        }
+
+        .send-btn:hover {
+            background: #5a6fd8;
+        }
+
+        .send-btn:disabled {
+            background: #3a3a52;
+            color: #8b9dc3;
+            cursor: not-allowed;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                z-index: 1000;
+                box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+            }
+
+            .sidebar.collapsed {
+                transform: translateX(-100%);
+                width: 260px;
+            }
+
+            .chat-header {
+                padding: 12px 16px;
+            }
+
+            .chat-messages {
+                padding: 16px;
+            }
+
+            .chat-input {
+                padding: 12px 16px;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .message-content {
+                max-width: 90%;
+            }
+
+            .welcome-screen {
+                padding: 20px;
+            }
+        }
+
+        /* Scrollbar Styling */
+        .conversations-section::-webkit-scrollbar,
+        .chat-messages::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .conversations-section::-webkit-scrollbar-track,
+        .chat-messages::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .conversations-section::-webkit-scrollbar-thumb,
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #3a3a52;
+            border-radius: 2px;
+        }
+
+        .conversations-section::-webkit-scrollbar-thumb:hover,
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: #4a4a62;
+        }
+
+        /* Loading Spinner */
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #3a3a52;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            background: #2d1b1b;
+            border: 1px solid #4a2c2c;
+            color: #ff6b6b;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Main App -->
+    <div class="app-container" id="appContainer">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="app-logo">
+                    <svg class="logo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                                <stop offset="50%" style="stop-color:#764ba2;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#f093fb;stop-opacity:1" />
+                            </linearGradient>
+                            <filter id="glow">
+                                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                <feMerge> 
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        <!-- Neural Network Style Logo -->
+                        <circle cx="20" cy="30" r="8" fill="url(#logoGradient)" filter="url(#glow)"/>
+                        <circle cx="80" cy="30" r="8" fill="url(#logoGradient)" filter="url(#glow)"/>
+                        <circle cx="20" cy="70" r="8" fill="url(#logoGradient)" filter="url(#glow)"/>
+                        <circle cx="80" cy="70" r="8" fill="url(#logoGradient)" filter="url(#glow)"/>
+                        <circle cx="50" cy="50" r="12" fill="url(#logoGradient)" filter="url(#glow)"/>
+                        
+                        <!-- Connections -->
+                        <line x1="28" y1="30" x2="42" y2="50" stroke="url(#logoGradient)" stroke-width="2" opacity="0.8"/>
+                        <line x1="72" y1="30" x2="58" y2="50" stroke="url(#logoGradient)" stroke-width="2" opacity="0.8"/>
+                        <line x1="28" y1="70" x2="42" y2="50" stroke="url(#logoGradient)" stroke-width="2" opacity="0.8"/>
+                        <line x1="72" y1="70" x2="58" y2="50" stroke="url(#logoGradient)" stroke-width="2" opacity="0.8"/>
+                        
+                        <!-- Animated pulse -->
+                        <circle cx="50" cy="50" r="12" fill="none" stroke="url(#logoGradient)" stroke-width="1" opacity="0.5">
+                            <animate attributeName="r" values="12;18;12" dur="2s" repeatCount="indefinite"/>
+                            <animate attributeName="opacity" values="0.5;0.1;0.5" dur="2s" repeatCount="indefinite"/>
+                        </circle>
+                    </svg>
+                    <span class="logo-text sparkle"><span class="sparkle-text">DeepBolt</span></span>
+                </div>
+                <button class="new-chat-btn sparkle" onclick="startNewChat()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    <span class="sparkle-text">New Chat</span>
+                </button>
+            </div>
+
+            <div class="conversations-section">
+                <h3 class="section-title sparkle"><span class="sparkle-text">Recent</span></h3>
+                <div id="conversationsList">
+                    <!-- Conversations will be added here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="chat-header">
+                <div class="header-left">
+                    <button class="menu-toggle" onclick="toggleSidebar()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+                    <div class="chat-title sparkle" id="chatTitle"><span class="sparkle-text">DeepBolt AI</span></div>
+                </div>
+
+                <div class="header-controls">
+                    <button class="control-btn" onclick="regenerateResponse()" title="Regenerate">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="23 4 23 10 17 10"></polyline>
+                            <polyline points="1 20 1 14 7 14"></polyline>
+                            <path d="m3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Chat Messages -->
+            <div class="chat-messages" id="chatMessages">
+                <div class="welcome-screen" id="welcomeScreen">
+                    <svg class="welcome-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="welcomeLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                                <stop offset="50%" style="stop-color:#764ba2;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#f093fb;stop-opacity:1" />
+                            </linearGradient>
+                            <filter id="welcomeGlow">
+                                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                <feMerge> 
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        <!-- Neural Network Style Logo -->
+                        <circle cx="20" cy="30" r="8" fill="url(#welcomeLogoGradient)" filter="url(#welcomeGlow)"/>
+                        <circle cx="80" cy="30" r="8" fill="url(#welcomeLogoGradient)" filter="url(#welcomeGlow)"/>
+                        <circle cx="20" cy="70" r="8" fill="url(#welcomeLogoGradient)" filter="url(#welcomeGlow)"/>
+                        <circle cx="80" cy="70" r="8" fill="url(#welcomeLogoGradient)" filter="url(#welcomeGlow)"/>
+                        <circle cx="50" cy="50" r="12" fill="url(#welcomeLogoGradient)" filter="url(#welcomeGlow)"/>
+                        
+                        <!-- Connections -->
+                        <line x1="28" y1="30" x2="42" y2="50" stroke="url(#welcomeLogoGradient)" stroke-width="2" opacity="0.8"/>
+                        <line x1="72" y1="30" x2="58" y2="50" stroke="url(#welcomeLogoGradient)" stroke-width="2" opacity="0.8"/>
+                        <line x1="28" y1="70" x2="42" y2="50" stroke="url(#welcomeLogoGradient)" stroke-width="2" opacity="0.8"/>
+                        <line x1="72" y1="70" x2="58" y2="50" stroke="url(#welcomeLogoGradient)" stroke-width="2" opacity="0.8"/>
+                        
+                        <!-- Animated pulse -->
+                        <circle cx="50" cy="50" r="12" fill="none" stroke="url(#welcomeLogoGradient)" stroke-width="1" opacity="0.5">
+                            <animate attributeName="r" values="12;18;12" dur="2s" repeatCount="indefinite"/>
+                            <animate attributeName="opacity" values="0.5;0.1;0.5" dur="2s" repeatCount="indefinite"/>
+                        </circle>
+                    </svg>
+                    <h1 class="welcome-title sparkle"><span class="sparkle-text">Welcome to DeepBolt AI</span></h1>
+                    <p class="welcome-subtitle sparkle"><span class="sparkle-text">Your intelligent assistant for complex reasoning and problem solving</span></p>
+                    
+                    <div class="quick-actions">
+                        <div class="quick-action sparkle" onclick="askQuestion('What are your capabilities?')">
+                            <h3><span class="sparkle-text">Capabilities</span></h3>
+                            <p>Learn about my features and how I can help you</p>
+                        </div>
+                        <div class="quick-action sparkle" onclick="askQuestion('Write a Python function to sort a list')">
+                            <h3><span class="sparkle-text">Coding Help</span></h3>
+                            <p>Get assistance with programming and code review</p>
+                        </div>
+                        <div class="quick-action sparkle" onclick="askQuestion('Explain quantum computing')">
+                            <h3><span class="sparkle-text">Learning</span></h3>
+                            <p>Understand complex topics with clear explanations</p>
+                        </div>
+                        <div class="quick-action sparkle" onclick="askQuestion('Help me write an essay')">
+                            <h3><span class="sparkle-text">Writing</span></h3>
+                            <p>Create and improve written content</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="chat-input">
+                <div class="input-container">
+                    <div class="input-wrapper">
+                        <textarea 
+                            id="messageInput" 
+                            class="message-input" 
+                            placeholder="Ask DeepBolt anything..."
+                            onkeypress="handleKeyPress(event)"
+                            oninput="autoResize(this)"
+                            rows="1"
+                        ></textarea>
+                    </div>
+                    
+                    <button class="input-btn mic-btn" id="micBtn" onclick="toggleSpeechRecognition()" title="Voice Input">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                            <line x1="12" y1="19" x2="12" y2="23"></line>
+                            <line x1="8" y1="23" x2="16" y2="23"></line>
+                        </svg>
+                    </button>
+                    
+                    <button class="input-btn send-btn" id="sendBtn" onclick="sendMessage()" title="Send Message">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22,2 15,22 11,13 2,9 22,2"></polygon>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let conversations = [];
+        let currentConversationId = null;
+        let sidebarCollapsed = false;
+        let isTyping = false;
+        let recognition = null;
+        let isListening = false;
+
+        // Your existing Gemini AI Configuration - KEPT INTACT
+        const API_KEY = 'AIzaSyCOjAKOpfpto1YqplzX3HwdNw96tcawWBs';
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${API_KEY}`;
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            loadConversations();
+            initSpeechRecognition();
+            
+            // Initialize on mobile
+            if (window.innerWidth <= 768) {
+                sidebarCollapsed = true;
+                document.getElementById('sidebar').classList.add('collapsed');
+            }
+        });
+
+        // Enhanced text formatting function
+        function formatAIResponse(text) {
+            // Basic markdown-like formatting
+            let formatted = text
+                // Headers
+                .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+                .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+                .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+                // Bold and italic
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                // Code blocks
+                .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
+                // Inline code
+                .replace(/`([^`]+)`/g, '<code>$1</code>')
+                // Lists
+                .replace(/^\* (.*$)/gim, '<li>$1</li>')
+                .replace(/^- (.*$)/gim, '<li>$1</li>')
+                .replace(/^\d+\. (.*$)/gim, '<li>$1</li>')
+                // Line breaks
+                .replace(/\n\n/g, '</p><p>')
+                .replace(/\n/g, '<br>');
+
+            // Wrap in paragraphs and handle lists
+            formatted = '<p>' + formatted + '</p>';
+            formatted = formatted.replace(/<\/p><p><li>/g, '</p><ul><li>');
+            formatted = formatted.replace(/<\/li><p>/g, '</li></ul><p>');
+            formatted = formatted.replace(/<p><\/p>/g, '');
+
+            return formatted;
+        }
+
+        // Simple response checker
+        function isSimpleQuestion(message) {
+            const simplePatterns = [
+                /^(hi|hello|hey|hola|namaste)$/i,
+                /^(how are you|what's up|wassup)$/i,
+                /^(thanks|thank you|thx)$/i,
+                /^(bye|goodbye|see you)$/i,
+                /^(yes|no|ok|okay)$/i,
+                /^(good morning|good evening|good night)$/i
+            ];
+            
+            return simplePatterns.some(pattern => pattern.test(message.trim()));
+        }
+
+        // App functions
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebarCollapsed = !sidebarCollapsed;
+            sidebar.classList.toggle('collapsed', sidebarCollapsed);
+        }
+
+        function startNewChat() {
+            currentConversationId = Date.now().toString();
+            const newConversation = {
+                id: currentConversationId,
+                title: 'New Chat',
+                messages: [],
+                timestamp: new Date()
+            };
+            
+            conversations.unshift(newConversation);
+            saveConversations();
+            renderConversations();
+            
+            // Clear chat messages and show welcome screen
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML = `
+                <div class="welcome-screen" id="welcomeScreen">
+                    <svg class="welcome-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="welcomeLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                                <stop offset="50%" style="stop-color:#764ba2;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#f093fb;stop-opacity:1" />
+                            </linearGradient>
+                            <filter id="welcomeGlow">
+                                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                <feMerge> 
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        <!-- Neural Network Style Logo -->
+                        <circle cx="20" cy="30" r="8" fill="url(#welcomeLogoGradient)" filter="url(#welcomeGlow)"/>
+                        <circle cx="80" cy="30" r="8" fill="url(#welcomeLogoGradient)" filter="url(#welcomeGlow)"/>
+                        <circle cx="20" cy="70" r="8" fill="url(#welcomeLogoGradient)" filter="url(#welcomeGlow)"/>
+                        <circle cx="80" cy="70" r="8" fill="url(#welcomeLogoGradient)" filter="url(#welcomeGlow)"/>
+                        <circle cx="50" cy="50" r="12" fill="url(#welcomeLogoGradient)" filter="url(#welcomeGlow)"/>
+                        
+                        <!-- Connections -->
+                        <line x1="28" y1="30" x2="42" y2="50" stroke="url(#welcomeLogoGradient)" stroke-width="2" opacity="0.8"/>
+                        <line x1="72" y1="30" x2="58" y2="50" stroke="url(#welcomeLogoGradient)" stroke-width="2" opacity="0.8"/>
+                        <line x1="28" y1="70" x2="42" y2="50" stroke="url(#welcomeLogoGradient)" stroke-width="2" opacity="0.8"/>
+                        <line x1="72" y1="70" x2="58" y2="50" stroke="url(#welcomeLogoGradient)" stroke-width="2" opacity="0.8"/>
+                        
+                        <!-- Animated pulse -->
+                        <circle cx="50" cy="50" r="12" fill="none" stroke="url(#welcomeLogoGradient)" stroke-width="1" opacity="0.5">
+                            <animate attributeName="r" values="12;18;12" dur="2s" repeatCount="indefinite"/>
+                            <animate attributeName="opacity" values="0.5;0.1;0.5" dur="2s" repeatCount="indefinite"/>
+                        </circle>
+                    </svg>
+                    <h1 class="welcome-title sparkle"><span class="sparkle-text">Welcome to DeepBolt AI</span></h1>
+                    <p class="welcome-subtitle sparkle"><span class="sparkle-text">Your intelligent assistant for complex reasoning and problem solving</span></p>
+                    
+                    <div class="quick-actions">
+                        <div class="quick-action sparkle" onclick="askQuestion('What are your capabilities?')">
+                            <h3><span class="sparkle-text">Capabilities</span></h3>
+                            <p>Learn about my features and how I can help you</p>
+                        </div>
+                        <div class="quick-action sparkle" onclick="askQuestion('Write a Python function to sort a list')">
+                            <h3><span class="sparkle-text">Coding Help</span></h3>
+                            <p>Get assistance with programming and code review</p>
+                        </div>
+                        <div class="quick-action sparkle" onclick="askQuestion('Explain quantum computing')">
+                            <h3><span class="sparkle-text">Learning</span></h3>
+                            <p>Understand complex topics with clear explanations</p>
+                        </div>
+                        <div class="quick-action sparkle" onclick="askQuestion('Help me write an essay')">
+                            <h3><span class="sparkle-text">Writing</span></h3>
+                            <p>Create and improve written content</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('chatTitle').innerHTML = '<span class="sparkle-text">DeepBolt AI</span>';
+        }
+
+        function askQuestion(question) {
+            document.getElementById('messageInput').value = question;
+            sendMessage();
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (!message || isTyping) return;
+
+            // Hide welcome screen
+            const welcomeScreen = document.getElementById('welcomeScreen');
+            if (welcomeScreen) {
+                welcomeScreen.style.display = 'none';
+            }
+
+            // Create new conversation if needed
+            if (!currentConversationId) {
+                startNewChat();
+            }
+
+            // Add user message
+            addMessage(message, true);
+            input.value = '';
+            autoResize(input);
+
+            // Show typing indicator
+            showTypingIndicator();
+
+            try {
+                // Check if it's a simple question
+                let enhancedPrompt = message;
+                
+                if (isSimpleQuestion(message)) {
+                    // For simple greetings, give direct responses
+                    enhancedPrompt = `Give a brief, friendly response to: "${message}". Keep it conversational and under 20 words.`;
+                } else {
+                    // For complex requests, provide detailed responses
+                    const complexKeywords = ['create', 'build', 'make', 'develop', 'code', 'app', 'game', 'website', 'function', 'program', 'script', 'algorithm', 'explain', 'how to', 'tutorial', 'guide'];
+                    const isComplexRequest = complexKeywords.some(keyword => message.toLowerCase().includes(keyword));
+                    
+                    if (isComplexRequest) {
+                        enhancedPrompt = `Please provide a clear, well-structured, and comprehensive response to: "${message}". Use proper formatting with headers, bullet points, and code blocks where appropriate. Make your response easy to understand and professional.`;
+                    }
+                }
+
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: enhancedPrompt
+                            }]
+                        }],
+                        generationConfig: {
+                            temperature: 0.7,
+                            topK: 40,
+                            topP: 0.95,
+                            maxOutputTokens: 2048,
+                        }
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
+                    const aiResponse = data.candidates[0].content.parts[0].text;
+                    hideTypingIndicator();
+                    addMessage(aiResponse, false);
+                    
+                    // Update conversation title if it's the first message
+                    updateConversationTitle(message);
+                } else {
+                    throw new Error('Invalid response format');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                hideTypingIndicator();
+                addMessage('I apologize, but I encountered an error processing your request. Please try again.', false);
+            }
+        }
+
+        function addMessage(content, isUser) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
+
+            const messageContent = document.createElement('div');
+            messageContent.className = 'message-content';
+            
+            if (isUser) {
+                messageContent.textContent = content;
+            } else {
+                // Format AI response with better structure
+                const formattedContent = formatAIResponse(content);
+                messageContent.innerHTML = `<div class="ai-response">${formattedContent}</div>`;
+            }
+            
+            const messageMeta = document.createElement('div');
+            messageMeta.className = 'message-meta';
+            
+            const timeSpan = document.createElement('span');
+            timeSpan.textContent = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            messageMeta.appendChild(timeSpan);
+
+            // Add action buttons for AI messages
+            if (!isUser) {
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'message-actions';
+                
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'action-btn';
+                copyBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>`;
+                
+                copyBtn.onclick = function() {
+                    copyToClipboard(content, copyBtn);
+                };
+                
+                actionsDiv.appendChild(copyBtn);
+                messageMeta.appendChild(actionsDiv);
+            }
+
+            messageContent.appendChild(messageMeta);
+            messageDiv.appendChild(messageContent);
+
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            // Save to current conversation
+            if (currentConversationId) {
+                const conversation = conversations.find(c => c.id === currentConversationId);
+                if (conversation) {
+                    conversation.messages.push({
+                        content: content,
+                        isUser: isUser,
+                        timestamp: new Date()
+                    });
+                    saveConversations();
+                }
+            }
+        }
+
+        function showTypingIndicator() {
+            isTyping = true;
+            const messagesContainer = document.getElementById('chatMessages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator';
+            typingDiv.id = 'typingIndicator';
+
+            const typingContent = document.createElement('div');
+            typingContent.className = 'typing-content';
+
+            for (let i = 0; i < 3; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'typing-dot';
+                typingContent.appendChild(dot);
+            }
+
+            typingDiv.appendChild(typingContent);
+            messagesContainer.appendChild(typingDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            isTyping = false;
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        function copyToClipboard(text, button) {
+            navigator.clipboard.writeText(text).then(function() {
+                button.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20,6 9,17 4,12"></polyline>
+                </svg>`;
+                setTimeout(() => {
+                    button.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>`;
+                }, 2000);
+            });
+        }
+
+        function updateConversationTitle(firstMessage) {
+            if (currentConversationId) {
+                const conversation = conversations.find(c => c.id === currentConversationId);
+                if (conversation && conversation.title === 'New Chat') {
+                    conversation.title = firstMessage.length > 30 ? firstMessage.substring(0, 30) + '...' : firstMessage;
+                    saveConversations();
+                    renderConversations();
+                    document.getElementById('chatTitle').innerHTML = `<span class="sparkle-text">${conversation.title}</span>`;
+                }
+            }
+        }
+
+        function renderConversations() {
+            const conversationsList = document.getElementById('conversationsList');
+            conversationsList.innerHTML = '';
+            
+            conversations.forEach(conversation => {
+                const conversationDiv = document.createElement('div');
+                conversationDiv.className = 'conversation-item';
+                if (conversation.id === currentConversationId) {
+                    conversationDiv.classList.add('active');
+                }
+                
+                conversationDiv.onclick = () => loadConversation(conversation.id);
+                
+                conversationDiv.innerHTML = `
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <span class="conversation-text">${conversation.title}</span>
+                `;
+                
+                conversationsList.appendChild(conversationDiv);
+            });
+        }
+
+        function loadConversation(conversationId) {
+            currentConversationId = conversationId;
+            const conversation = conversations.find(c => c.id === conversationId);
+            
+            if (conversation) {
+                // Clear current messages
+                const chatMessages = document.getElementById('chatMessages');
+                chatMessages.innerHTML = '';
+                
+                // Load conversation messages
+                conversation.messages.forEach(msg => {
+                    addMessageToUI(msg.content, msg.isUser);
+                });
+                
+                renderConversations();
+                document.getElementById('chatTitle').innerHTML = `<span class="sparkle-text">${conversation.title}</span>`;
+            }
+        }
+
+        function addMessageToUI(content, isUser) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'ai'}`;
+
+            const messageContent = document.createElement('div');
+            messageContent.className = 'message-content';
+            
+            if (isUser) {
+                messageContent.textContent = content;
+            } else {
+                const formattedContent = formatAIResponse(content);
+                messageContent.innerHTML = `<div class="ai-response">${formattedContent}</div>`;
+            }
+            
+            const messageMeta = document.createElement('div');
+            messageMeta.className = 'message-meta';
+            
+            const timeSpan = document.createElement('span');
+            timeSpan.textContent = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            messageMeta.appendChild(timeSpan);
+
+            if (!isUser) {
+                const actionsDiv = document.createElement('div');
+                actionsDiv.className = 'message-actions';
+                
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'action-btn';
+                copyBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>`;
+                copyBtn.onclick = function() {
+                    copyToClipboard(content, copyBtn);
+                };
+                
+                actionsDiv.appendChild(copyBtn);
+                messageMeta.appendChild(actionsDiv);
+            }
+
+            messageContent.appendChild(messageMeta);
+            messageDiv.appendChild(messageContent);
+
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function saveConversations() {
+            localStorage.setItem('deepbolt_conversations', JSON.stringify(conversations));
+        }
+
+        function loadConversations() {
+            const saved = localStorage.getItem('deepbolt_conversations');
+            if (saved) {
+                conversations = JSON.parse(saved);
+                renderConversations();
+            }
+        }
+
+        function regenerateResponse() {
+            if (currentConversationId) {
+                const conversation = conversations.find(c => c.id === currentConversationId);
+                if (conversation && conversation.messages.length > 0) {
+                    const lastUserMessage = [...conversation.messages].reverse().find(m => m.isUser);
+                    if (lastUserMessage) {
+                        // Remove last AI response
+                        const lastAiIndex = conversation.messages.map(m => m.isUser).lastIndexOf(false);
+                        if (lastAiIndex !== -1) {
+                            conversation.messages.splice(lastAiIndex, 1);
+                            
+                            // Remove from UI
+                            const chatMessages = document.getElementById('chatMessages');
+                            const messages = chatMessages.querySelectorAll('.message');
+                            if (messages.length > 0) {
+                                messages[messages.length - 1].remove();
+                            }
+                        }
+                        
+                        // Regenerate response
+                        document.getElementById('messageInput').value = lastUserMessage.content;
+                        sendMessage();
+                    }
+                }
+            }
+        }
+
+        // Speech recognition
+        function initSpeechRecognition() {
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = 'en-US';
+
+                recognition.onresult = function(event) {
+                    const transcript = event.results[0][0].transcript;
+                    document.getElementById('messageInput').value = transcript;
+                    stopListening();
+                };
+
+                recognition.onerror = function(event) {
+                    console.error('Speech recognition error:', event.error);
+                    stopListening();
+                };
+
+                recognition.onend = function() {
+                    stopListening();
+                };
+            }
+        }
+
+        function toggleSpeechRecognition() {
+            if (!recognition) {
+                alert('Speech recognition is not supported in your browser.');
+                return;
+            }
+
+            if (isListening) {
+                stopListening();
+            } else {
+                startListening();
+            }
+        }
+
+        function startListening() {
+            isListening = true;
+            document.getElementById('micBtn').classList.add('listening');
+            recognition.start();
+        }
+
+        function stopListening() {
+            isListening = false;
+            document.getElementById('micBtn').classList.remove('listening');
+            if (recognition) {
+                recognition.stop();
+            }
+        }
+
+        // Mobile responsive
+        window.addEventListener('resize', function() {
+            if (window.innerWidth <= 768 && !sidebarCollapsed) {
+                toggleSidebar();
+            }
+        });
+    </script>
+</body>
+</html>
