@@ -141,11 +141,11 @@
             font-size: 16px;
         }
 
-        .demo-login-btn, .google-login-btn {
+        .google-login-btn {
             width: 100%;
             padding: 16px 24px;
-            background: #667eea;
-            color: white;
+            background: #fff;
+            color: #333;
             border: none;
             border-radius: 12px;
             font-size: 16px;
@@ -158,20 +158,14 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             touch-action: manipulation;
-            margin-bottom: 12px;
         }
 
-        .google-login-btn {
-            background: #fff;
-            color: #333;
-        }
-
-        .demo-login-btn:hover, .google-login-btn:hover {
+        .google-login-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
 
-        .demo-login-btn:active, .google-login-btn:active {
+        .google-login-btn:active {
             transform: translateY(0);
         }
 
@@ -204,29 +198,6 @@
             margin-top: 16px;
             font-size: 14px;
             display: none;
-        }
-
-        .divider {
-            position: relative;
-            text-align: center;
-            margin: 20px 0;
-            color: #8b9dc3;
-            font-size: 14px;
-        }
-
-        .divider::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: rgba(139, 157, 195, 0.3);
-        }
-
-        .divider span {
-            background: rgba(26, 26, 46, 0.9);
-            padding: 0 15px;
         }
 
         /* Main App Container */
@@ -942,8 +913,7 @@
             .quick-action,
             .action-btn,
             .input-btn,
-            .google-login-btn,
-            .demo-login-btn {
+            .google-login-btn {
                 -webkit-tap-highlight-color: transparent;
             }
 
@@ -1074,22 +1044,6 @@
             
             <h1 class="login-title sparkle"><span class="sparkle-text">DeepBolt AI</span></h1>
             <p class="login-subtitle sparkle"><span class="sparkle-text">Sign in to continue to your intelligent assistant</span></p>
-            
-            <!-- Demo Login Button -->
-            <button class="demo-login-btn" onclick="demoLogin()">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M9 12l2 2 4-4"></path>
-                    <path d="M21 12c.552 0 1-.448 1-1s-.448-1-1-1-1 .448-1 1 .448 1 1 1z"></path>
-                    <path d="M3 12c.552 0 1-.448 1-1s-.448-1-1-1-1 .448-1 1 .448 1 1 1z"></path>
-                    <path d="M12 3c.552 0 1-.448 1-1s-.448-1-1-1-1 .448-1 1 .448 1 1 1z"></path>
-                    <path d="M12 21c.552 0 1-.448 1-1s-.448-1-1-1-1 .448-1 1 .448 1 1 1z"></path>
-                </svg>
-                <span>Try Demo Login</span>
-            </button>
-
-            <div class="divider">
-                <span>or</span>
-            </div>
             
             <button class="google-login-btn" id="googleLoginBtn" onclick="signInWithGoogle()">
                 <svg class="google-icon" viewBox="0 0 24 24">
@@ -1295,6 +1249,71 @@
         </div>
     </div>
 
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut as firebaseSignOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBvOoFKQZ8kXW8dWWf_xSiFq4p3K7_wuMk",
+            authDomain: "deepbolt-ai.firebaseapp.com",
+            projectId: "deepbolt-ai",
+            storageBucket: "deepbolt-ai.appspot.com",
+            messagingSenderId: "123456789012",
+            appId: "1:123456789012:web:abcdef123456789012345678"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        // Make auth functions global
+        window.auth = auth;
+        window.provider = provider;
+        window.signInWithPopup = signInWithPopup;
+        window.firebaseSignOut = firebaseSignOut;
+
+        // Auth state observer
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in
+                showApp(user);
+            } else {
+                // User is signed out
+                showLogin();
+            }
+        });
+
+        function showApp(user) {
+            const loginContainer = document.getElementById('loginContainer');
+            const appContainer = document.getElementById('appContainer');
+            
+            // Update user profile
+            document.getElementById('userName').textContent = user.displayName || 'User';
+            document.getElementById('userEmail').textContent = user.email;
+            document.getElementById('userAvatar').src = user.photoURL || 'https://via.placeholder.com/36';
+            
+            // Hide login and show app
+            loginContainer.style.display = 'none';
+            appContainer.classList.remove('hidden');
+            appContainer.classList.add('authenticated');
+            
+            // Initialize the app
+            initializeApp();
+        }
+
+        function showLogin() {
+            const loginContainer = document.getElementById('loginContainer');
+            const appContainer = document.getElementById('appContainer');
+            
+            loginContainer.style.display = 'flex';
+            appContainer.classList.add('hidden');
+            appContainer.classList.remove('authenticated');
+        }
+    </script>
+
     <script>
         // Global variables
         let conversations = [];
@@ -1305,27 +1324,12 @@
         let isListening = false;
         let isMobile = window.innerWidth <= 768;
         let currentUser = null;
-        let isAuthenticated = false;
 
         // Gemini AI Configuration
         const API_KEY = 'AIzaSyCOjAKOpfpto1YqplzX3HwdNw96tcawWBs';
         const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${API_KEY}`;
 
-        // Demo Login Function
-        function demoLogin() {
-            const mockUser = {
-                uid: 'demo_user_' + Date.now(),
-                displayName: 'Demo User',
-                email: 'demo@deepbolt.ai',
-                photoURL: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&dpr=1'
-            };
-            
-            currentUser = mockUser;
-            isAuthenticated = true;
-            showApp(mockUser);
-        }
-
-        // Google Sign In (Real Firebase)
+        // Google Sign In
         async function signInWithGoogle() {
             const loginBtn = document.getElementById('googleLoginBtn');
             const loginBtnText = document.getElementById('loginBtnText');
@@ -1339,36 +1343,21 @@
                 loginBtn.disabled = true;
                 errorMessage.style.display = 'none';
                 
-                // Try to initialize Firebase for real authentication
-                const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
-                const { getAuth, GoogleAuthProvider, signInWithPopup } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js');
-
-                // Real Firebase Configuration - Replace with your actual config
-                const firebaseConfig = {
-                    apiKey: "your-actual-api-key",
-                    authDomain: "your-project.firebaseapp.com",
-                    projectId: "your-project-id",
-                    storageBucket: "your-project.appspot.com",
-                    messagingSenderId: "123456789012",
-                    appId: "your-app-id"
-                };
-
-                const app = initializeApp(firebaseConfig);
-                const auth = getAuth(app);
-                const provider = new GoogleAuthProvider();
+                // Configure provider
+                window.provider.addScope('profile');
+                window.provider.addScope('email');
                 
-                provider.addScope('profile');
-                provider.addScope('email');
-                
-                const result = await signInWithPopup(auth, provider);
+                // Sign in with popup
+                const result = await window.signInWithPopup(window.auth, window.provider);
                 currentUser = result.user;
-                isAuthenticated = true;
-                showApp(currentUser);
+                
+                // Success - the onAuthStateChanged listener will handle the rest
                 
             } catch (error) {
                 console.error('Authentication error:', error);
                 
-                let errorText = 'Google Sign-in is not configured. Please use Demo Login or set up Firebase.';
+                // Show error message
+                let errorText = 'Sign in failed. Please try again.';
                 if (error.code === 'auth/popup-closed-by-user') {
                     errorText = 'Sign in was cancelled.';
                 } else if (error.code === 'auth/popup-blocked') {
@@ -1385,44 +1374,22 @@
             }
         }
 
-        // Show App Function
-        function showApp(user) {
-            const loginContainer = document.getElementById('loginContainer');
-            const appContainer = document.getElementById('appContainer');
-            
-            // Update user profile
-            document.getElementById('userName').textContent = user.displayName || 'User';
-            document.getElementById('userEmail').textContent = user.email;
-            document.getElementById('userAvatar').src = user.photoURL || 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&dpr=1';
-            
-            // Hide login and show app
-            loginContainer.style.display = 'none';
-            appContainer.classList.remove('hidden');
-            appContainer.classList.add('authenticated');
-            
-            // Initialize the app
-            initializeApp();
-        }
-
         // Sign Out
-        function signOut() {
-            currentUser = null;
-            isAuthenticated = false;
-            
-            // Clear local data
-            conversations = [];
-            currentConversationId = null;
-            
-            // Clear chat messages
-            document.getElementById('chatMessages').innerHTML = '';
-            
-            // Show login screen
-            const loginContainer = document.getElementById('loginContainer');
-            const appContainer = document.getElementById('appContainer');
-            
-            loginContainer.style.display = 'flex';
-            appContainer.classList.add('hidden');
-            appContainer.classList.remove('authenticated');
+        async function signOut() {
+            try {
+                await window.firebaseSignOut(window.auth);
+                currentUser = null;
+                
+                // Clear local data
+                conversations = [];
+                currentConversationId = null;
+                
+                // Clear chat messages
+                document.getElementById('chatMessages').innerHTML = '';
+                
+            } catch (error) {
+                console.error('Sign out error:', error);
+            }
         }
 
         // Initialize app after authentication
@@ -2021,11 +1988,6 @@
                     sidebarOpen = false;
                 }
             }
-        });
-
-        // Initialize on page load
-        window.addEventListener('load', function() {
-            checkMobile();
         });
 
         // Prevent zoom on double tap for iOS
