@@ -89,37 +89,15 @@
             font-size: 16px;
         }
 
-        .demo-login-btn {
-            width: 100%;
-            padding: 16px 24px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
+        .login-options {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-            touch-action: manipulation;
-            margin-bottom: 12px;
+            flex-direction: column;
+            gap: 16px;
         }
 
-        .demo-login-btn:hover {
-            background: #5a6fd8;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        .google-login-btn {
+        .google-login-btn, .demo-login-btn {
             width: 100%;
             padding: 16px 24px;
-            background: #fff;
-            color: #333;
             border: none;
             border-radius: 12px;
             font-size: 16px;
@@ -134,16 +112,36 @@
             touch-action: manipulation;
         }
 
+        .google-login-btn {
+            background: #fff;
+            color: #333;
+        }
+
         .google-login-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
 
-        .google-login-btn:active {
+        .demo-login-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .demo-login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .google-login-btn:active, .demo-login-btn:active {
             transform: translateY(0);
         }
 
         .google-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .demo-icon {
             width: 20px;
             height: 20px;
         }
@@ -172,6 +170,29 @@
             margin-top: 16px;
             font-size: 14px;
             display: none;
+        }
+
+        .login-divider {
+            position: relative;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .login-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: rgba(139, 157, 195, 0.3);
+        }
+
+        .login-divider span {
+            background: rgba(26, 26, 46, 0.9);
+            padding: 0 16px;
+            color: #8b9dc3;
+            font-size: 14px;
         }
 
         /* Main App Container */
@@ -207,7 +228,7 @@
             opacity: 1;
         }
 
-        /* Sidebar - Fixed Mobile Animation */
+        /* Sidebar */
         .sidebar {
             width: 260px;
             background: #1a1a2e;
@@ -299,15 +320,10 @@
             gap: 8px;
             position: relative;
             touch-action: manipulation;
-            group: hover;
         }
 
         .conversation-item:hover {
             background: #2a2a42;
-        }
-
-        .conversation-item:hover .delete-chat-btn {
-            opacity: 1;
         }
 
         .conversation-item.active {
@@ -338,8 +354,42 @@
             height: 20px;
         }
 
+        .conversation-item:hover .delete-chat-btn {
+            opacity: 1;
+        }
+
         .delete-chat-btn:hover {
             background: rgba(239, 68, 68, 0.1);
+        }
+
+        /* Premium Button */
+        .premium-section {
+            padding: 16px;
+            border-bottom: 1px solid #2a2a42;
+        }
+
+        .premium-btn {
+            width: 100%;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #1a1a2e;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            touch-action: manipulation;
+            box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+        }
+
+        .premium-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
         }
 
         /* User Profile Section */
@@ -470,6 +520,26 @@
             background: #3a3a52;
         }
 
+        .voice-chat-btn {
+            background: #667eea;
+            color: white;
+        }
+
+        .voice-chat-btn:hover {
+            background: #5a6fd8;
+        }
+
+        .voice-chat-btn.active {
+            background: #ef4444;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
         /* Chat Messages */
         .chat-messages {
             flex: 1;
@@ -545,6 +615,102 @@
             font-size: 12px;
             color: #8b9dc3;
             line-height: 1.4;
+        }
+
+        /* Voice Chat Interface */
+        .voice-chat-interface {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(20px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            flex-direction: column;
+        }
+
+        .voice-chat-interface.active {
+            display: flex;
+        }
+
+        .voice-avatar {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffffff, #f0f0f0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 32px;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1);
+        }
+
+        .voice-avatar.speaking {
+            animation: voicePulse 1s ease-in-out infinite;
+        }
+
+        @keyframes voicePulse {
+            0% { transform: scale(1); box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1); }
+            50% { transform: scale(1.05); box-shadow: 0 25px 50px rgba(255, 255, 255, 0.2); }
+            100% { transform: scale(1); box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1); }
+        }
+
+        .voice-avatar::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            animation: voiceRipple 2s linear infinite;
+        }
+
+        @keyframes voiceRipple {
+            0% { transform: scale(0.8); opacity: 1; }
+            100% { transform: scale(1.2); opacity: 0; }
+        }
+
+        .voice-status {
+            font-size: 18px;
+            color: #e1e7ef;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .voice-controls {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .voice-control-btn {
+            width: 60px;
+            height: 60px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            font-size: 24px;
+        }
+
+        .voice-end-btn {
+            background: #ef4444;
+            color: white;
+        }
+
+        .voice-end-btn:hover {
+            background: #dc2626;
+            transform: scale(1.05);
         }
 
         /* Message Bubbles */
@@ -683,12 +849,6 @@
             font-style: italic;
         }
 
-        .ai-response img {
-            max-width: 100%;
-            border-radius: 8px;
-            margin: 8px 0;
-        }
-
         /* Thinking Indicator */
         .thinking-indicator {
             display: flex;
@@ -703,7 +863,23 @@
             padding: 14px 16px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
+        }
+
+        .thinking-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffffff, #f0f0f0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: thinkingPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes thinkingPulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
         }
 
         .thinking-text {
@@ -717,17 +893,17 @@
         }
 
         .thinking-dot {
-            width: 6px;
-            height: 6px;
+            width: 4px;
+            height: 4px;
             border-radius: 50%;
             background: #667eea;
-            animation: thinking 1.4s infinite ease-in-out;
+            animation: thinkingDots 1.4s infinite ease-in-out;
         }
 
         .thinking-dot:nth-child(1) { animation-delay: -0.32s; }
         .thinking-dot:nth-child(2) { animation-delay: -0.16s; }
 
-        @keyframes thinking {
+        @keyframes thinkingDots {
             0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
             40% { transform: scale(1); opacity: 1; }
         }
@@ -804,12 +980,6 @@
             animation: pulse 1s infinite;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
         .send-btn {
             background: #667eea;
             color: white;
@@ -825,7 +995,91 @@
             cursor: not-allowed;
         }
 
-        /* Mobile Responsive - Fixed Sidebar Animation */
+        /* Premium Modal */
+        .premium-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+        }
+
+        .premium-modal.active {
+            display: flex;
+        }
+
+        .premium-modal-content {
+            background: #1a1a2e;
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            border: 1px solid #2a2a42;
+        }
+
+        .premium-modal h2 {
+            color: #ffd700;
+            margin-bottom: 16px;
+            font-size: 24px;
+        }
+
+        .premium-features {
+            text-align: left;
+            margin: 24px 0;
+        }
+
+        .premium-features li {
+            color: #e1e7ef;
+            margin: 8px 0;
+            list-style: none;
+            position: relative;
+            padding-left: 24px;
+        }
+
+        .premium-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #4ade80;
+            font-weight: bold;
+        }
+
+        .premium-price {
+            font-size: 32px;
+            font-weight: bold;
+            color: #ffd700;
+            margin: 16px 0;
+        }
+
+        .upi-payment-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #1a1a2e;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 16px;
+        }
+
+        .modal-close-btn {
+            background: #2a2a42;
+            color: #8b9dc3;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        /* Mobile Responsive */
         @media (max-width: 768px) {
             .sidebar {
                 position: fixed;
@@ -921,26 +1175,23 @@
                 font-size: 28px;
             }
 
-            /* Touch improvements */
-            .menu-toggle,
-            .control-btn,
-            .new-chat-btn,
-            .conversation-item,
-            .quick-action,
-            .action-btn,
-            .input-btn,
-            .google-login-btn,
-            .demo-login-btn {
-                -webkit-tap-highlight-color: transparent;
+            .delete-chat-btn {
+                opacity: 1;
             }
 
-            /* Message actions always visible on mobile */
             .message-actions {
                 opacity: 1;
             }
 
-            .delete-chat-btn {
-                opacity: 1;
+            .voice-avatar {
+                width: 150px;
+                height: 150px;
+            }
+
+            .voice-control-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
             }
         }
 
@@ -1066,24 +1317,30 @@
             <h1 class="login-title">DeepBolt AI</h1>
             <p class="login-subtitle">Sign in to continue to your intelligent assistant</p>
             
-            <button class="demo-login-btn" onclick="demoLogin()">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M9 12l2 2 4-4"></path>
-                    <circle cx="12" cy="12" r="10"></circle>
-                </svg>
-                Try Demo Login
-            </button>
-            
-            <button class="google-login-btn" id="googleLoginBtn" onclick="signInWithGoogle()">
-                <svg class="google-icon" viewBox="0 0 24 24">
-                    <path fill="#4285f4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                    <path fill="#34a853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                    <path fill="#fbbc05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                    <path fill="#ea4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                </svg>
-                <span id="loginBtnText">Continue with Google</span>
-                <div class="loading-spinner" id="loginSpinner"></div>
-            </button>
+            <div class="login-options">
+                <button class="demo-login-btn" onclick="demoLogin()">
+                    <svg class="demo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span>Try Demo</span>
+                </button>
+                
+                <div class="login-divider">
+                    <span>or</span>
+                </div>
+                
+                <button class="google-login-btn" id="googleLoginBtn" onclick="signInWithGoogle()">
+                    <svg class="google-icon" viewBox="0 0 24 24">
+                        <path fill="#4285f4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34a853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#fbbc05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#ea4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                    <span id="loginBtnText">Continue with Google</span>
+                    <div class="loading-spinner" id="loginSpinner"></div>
+                </button>
+            </div>
             
             <div class="error-message" id="loginError"></div>
         </div>
@@ -1096,6 +1353,16 @@
     <div class="app-container hidden" id="appContainer">
         <!-- Sidebar -->
         <div class="sidebar" id="sidebar">
+            <!-- Premium Section -->
+            <div class="premium-section">
+                <button class="premium-btn" onclick="openPremiumModal()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"></polygon>
+                    </svg>
+                    Upgrade to Premium
+                </button>
+            </div>
+
             <div class="sidebar-header">
                 <div class="app-logo">
                     <svg class="logo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -1178,6 +1445,14 @@
                 </div>
 
                 <div class="header-controls">
+                    <button class="control-btn voice-chat-btn" id="voiceChatBtn" onclick="toggleVoiceChat()" title="Voice Chat">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                            <line x1="12" y1="19" x2="12" y2="23"></line>
+                            <line x1="8" y1="23" x2="16" y2="23"></line>
+                        </svg>
+                    </button>
                     <button class="control-btn" onclick="regenerateResponse()" title="Regenerate">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polyline points="23 4 23 10 17 10"></polyline>
@@ -1228,9 +1503,9 @@
                             <h3>Capabilities</h3>
                             <p>Learn about my features and how I can help you</p>
                         </div>
-                        <div class="quick-action" onclick="askQuestion('Generate an image of a sunset over mountains')">
-                            <h3>Image Generation</h3>
-                            <p>Create beautiful images from text descriptions</p>
+                        <div class="quick-action" onclick="askQuestion('Write a Python function to sort a list')">
+                            <h3>Coding Help</h3>
+                            <p>Get assistance with programming and code review</p>
                         </div>
                         <div class="quick-action" onclick="askQuestion('Explain quantum computing')">
                             <h3>Learning</h3>
@@ -1278,45 +1553,142 @@
         </div>
     </div>
 
-    <!-- Firebase SDKs -->
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut as firebaseSignOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+    <!-- Voice Chat Interface -->
+    <div class="voice-chat-interface" id="voiceChatInterface">
+        <div class="voice-avatar" id="voiceAvatar">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#1a1a2e" stroke-width="2">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                <line x1="12" y1="19" x2="12" y2="23"></line>
+                <line x1="8" y1="23" x2="16" y2="23"></line>
+            </svg>
+        </div>
+        <div class="voice-status" id="voiceStatus">Listening...</div>
+        <div class="voice-controls">
+            <button class="voice-control-btn voice-end-btn" onclick="endVoiceChat()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </div>
 
-        // Firebase Configuration - Replace with your actual config
-        const firebaseConfig = {
-            apiKey: "your-api-key",
-            authDomain: "your-project.firebaseapp.com",
-            projectId: "your-project-id",
-            storageBucket: "your-project.appspot.com",
-            messagingSenderId: "123456789012",
-            appId: "your-app-id"
-        };
+    <!-- Premium Modal -->
+    <div class="premium-modal" id="premiumModal">
+        <div class="premium-modal-content">
+            <h2>🌟 DeepBolt AI Premium</h2>
+            <p style="color: #8b9dc3; margin-bottom: 24px;">Unlock the full potential of AI</p>
+            
+            <ul class="premium-features">
+                <li>Unlimited AI conversations</li>
+                <li>Advanced image generation</li>
+                <li>Priority response times</li>
+                <li>Voice chat with AI</li>
+                <li>Export chat history</li>
+                <li>Premium support</li>
+            </ul>
+            
+            <div class="premium-price">₹299/month</div>
+            
+            <button class="upi-payment-btn" onclick="initiateUPIPayment()">
+                Pay with UPI
+            </button>
+            
+            <button class="modal-close-btn" onclick="closePremiumModal()">
+                Maybe Later
+            </button>
+        </div>
+    </div>
 
-        // Initialize Firebase
-        let app, auth, provider;
-        
-        try {
-            app = initializeApp(firebaseConfig);
-            auth = getAuth(app);
-            provider = new GoogleAuthProvider();
+    <script>
+        // Global variables
+        let conversations = [];
+        let currentConversationId = null;
+        let sidebarOpen = false;
+        let isTyping = false;
+        let recognition = null;
+        let isListening = false;
+        let isMobile = window.innerWidth <= 768;
+        let currentUser = null;
+        let isVoiceChatActive = false;
+        let speechSynthesis = window.speechSynthesis;
+        let currentUtterance = null;
+        let isDemoMode = false;
 
-            // Make auth functions global
-            window.auth = auth;
-            window.provider = provider;
-            window.signInWithPopup = signInWithPopup;
-            window.firebaseSignOut = firebaseSignOut;
+        // Gemini AI Configuration
+        const API_KEY = 'AIzaSyCOjAKOpfpto1YqplzX3HwdNw96tcawWBs';
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${API_KEY}`;
 
-            // Auth state observer
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    showApp(user);
-                } else {
-                    showLogin();
-                }
-            });
-        } catch (error) {
-            console.log('Firebase not configured, using demo mode only');
+        // Demo Login Function
+        function demoLogin() {
+            isDemoMode = true;
+            const demoUser = {
+                uid: 'demo-user-' + Date.now(),
+                displayName: 'Demo User',
+                email: 'demo@deepbolt.ai',
+                photoURL: 'https://via.placeholder.com/36/667eea/ffffff?text=D'
+            };
+            
+            currentUser = demoUser;
+            showApp(demoUser);
+        }
+
+        // Firebase Google Sign In (placeholder for now)
+        async function signInWithGoogle() {
+            const loginBtn = document.getElementById('googleLoginBtn');
+            const loginBtnText = document.getElementById('loginBtnText');
+            const loginSpinner = document.getElementById('loginSpinner');
+            const errorMessage = document.getElementById('loginError');
+            
+            try {
+                // Show loading state
+                loginBtnText.style.display = 'none';
+                loginSpinner.style.display = 'block';
+                loginBtn.disabled = true;
+                errorMessage.style.display = 'none';
+                
+                // Simulate loading for demo
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // For now, show error message suggesting demo mode
+                throw new Error('Google Sign-In not configured. Please use Demo mode.');
+                
+            } catch (error) {
+                console.error('Authentication error:', error);
+                
+                // Show error message
+                let errorText = 'Google Sign-In is not configured yet. Please use "Try Demo" to test the application.';
+                
+                errorMessage.textContent = errorText;
+                errorMessage.style.display = 'block';
+                
+                // Reset button state
+                loginBtnText.style.display = 'inline';
+                loginSpinner.style.display = 'none';
+                loginBtn.disabled = false;
+            }
+        }
+
+        // Sign Out
+        async function signOut() {
+            try {
+                currentUser = null;
+                isDemoMode = false;
+                
+                // Clear local data
+                conversations = [];
+                currentConversationId = null;
+                
+                // Clear chat messages
+                document.getElementById('chatMessages').innerHTML = '';
+                
+                // Show login screen
+                showLogin();
+                
+            } catch (error) {
+                console.error('Sign out error:', error);
+            }
         }
 
         function showApp(user) {
@@ -1346,104 +1718,14 @@
             appContainer.classList.remove('authenticated');
         }
 
-        // Make functions global
-        window.showApp = showApp;
-        window.showLogin = showLogin;
-    </script>
-
-    <script>
-        // Global variables
-        let conversations = [];
-        let currentConversationId = null;
-        let sidebarOpen = false;
-        let isTyping = false;
-        let recognition = null;
-        let isListening = false;
-        let isMobile = window.innerWidth <= 768;
-        let currentUser = null;
-
-        // Gemini AI Configuration
-        const API_KEY = 'AIzaSyCOjAKOpfpto1YqplzX3HwdNw96tcawWBs';
-        const TEXT_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${API_KEY}`;
-        const IMAGE_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-vision-latest:generateContent?key=${API_KEY}`;
-
-        // Demo Login
-        function demoLogin() {
-            const demoUser = {
-                uid: 'demo-user-' + Date.now(),
-                displayName: 'Demo User',
-                email: 'demo@deepbolt.ai',
-                photoURL: 'https://via.placeholder.com/36/667eea/ffffff?text=DU'
-            };
-            
-            currentUser = demoUser;
-            window.showApp(demoUser);
-        }
-
-        // Google Sign In
-        async function signInWithGoogle() {
-            if (!window.auth || !window.provider) {
-                alert('Firebase not configured. Please use Demo Login.');
-                return;
-            }
-
-            const loginBtn = document.getElementById('googleLoginBtn');
-            const loginBtnText = document.getElementById('loginBtnText');
-            const loginSpinner = document.getElementById('loginSpinner');
-            const errorMessage = document.getElementById('loginError');
-            
-            try {
-                loginBtnText.style.display = 'none';
-                loginSpinner.style.display = 'block';
-                loginBtn.disabled = true;
-                errorMessage.style.display = 'none';
-                
-                window.provider.addScope('profile');
-                window.provider.addScope('email');
-                
-                const result = await window.signInWithPopup(window.auth, window.provider);
-                currentUser = result.user;
-                
-            } catch (error) {
-                console.error('Authentication error:', error);
-                
-                let errorText = 'Sign in failed. Please try again.';
-                if (error.code === 'auth/popup-closed-by-user') {
-                    errorText = 'Sign in was cancelled.';
-                } else if (error.code === 'auth/popup-blocked') {
-                    errorText = 'Popup was blocked. Please allow popups and try again.';
-                }
-                
-                errorMessage.textContent = errorText;
-                errorMessage.style.display = 'block';
-                
-                loginBtnText.style.display = 'inline';
-                loginSpinner.style.display = 'none';
-                loginBtn.disabled = false;
-            }
-        }
-
-        // Sign Out
-        async function signOut() {
-            try {
-                if (window.firebaseSignOut && window.auth) {
-                    await window.firebaseSignOut(window.auth);
-                }
-                currentUser = null;
-                conversations = [];
-                currentConversationId = null;
-                document.getElementById('chatMessages').innerHTML = '';
-                window.showLogin();
-            } catch (error) {
-                console.error('Sign out error:', error);
-            }
-        }
-
         // Initialize app after authentication
         function initializeApp() {
             loadConversations();
             initSpeechRecognition();
+            initTextToSpeech();
             checkMobile();
+            
+            // Show welcome screen
             showWelcomeScreen();
         }
 
@@ -1505,9 +1787,9 @@
                             <h3>Capabilities</h3>
                             <p>Learn about my features and how I can help you</p>
                         </div>
-                        <div class="quick-action" onclick="askQuestion('Generate an image of a sunset over mountains')">
-                            <h3>Image Generation</h3>
-                            <p>Create beautiful images from text descriptions</p>
+                        <div class="quick-action" onclick="askQuestion('Write a Python function to sort a list')">
+                            <h3>Coding Help</h3>
+                            <p>Get assistance with programming and code review</p>
                         </div>
                         <div class="quick-action" onclick="askQuestion('Explain quantum computing')">
                             <h3>Learning</h3>
@@ -1520,19 +1802,6 @@
                     </div>
                 </div>
             `;
-        }
-
-        // Check if message is asking for image generation
-        function isImageRequest(message) {
-            const imageKeywords = [
-                'generate image', 'create image', 'make image', 'draw', 'generate picture',
-                'create picture', 'make picture', 'show me', 'visualize', 'image of',
-                'picture of', 'photo of', 'illustration of', 'artwork of', 'design'
-            ];
-            
-            return imageKeywords.some(keyword => 
-                message.toLowerCase().includes(keyword.toLowerCase())
-            );
         }
 
         // Enhanced text formatting function
@@ -1557,6 +1826,19 @@
             formatted = formatted.replace(/<p><\/p>/g, '');
 
             return formatted;
+        }
+
+        // Image generation detection
+        function isImageRequest(message) {
+            const imageKeywords = [
+                'generate image', 'create image', 'draw', 'make image', 'generate picture',
+                'create picture', 'design', 'illustrate', 'sketch', 'paint', 'artwork',
+                'generate art', 'create art', 'make art', 'visual', 'graphic'
+            ];
+            
+            return imageKeywords.some(keyword => 
+                message.toLowerCase().includes(keyword.toLowerCase())
+            );
         }
 
         // Simple response checker
@@ -1630,22 +1912,6 @@
             }
         }
 
-        function deleteChat(conversationId, event) {
-            event.stopPropagation();
-            
-            if (confirm('Are you sure you want to delete this chat?')) {
-                conversations = conversations.filter(c => c.id !== conversationId);
-                saveConversations();
-                renderConversations();
-                
-                if (currentConversationId === conversationId) {
-                    currentConversationId = null;
-                    showWelcomeScreen();
-                    document.getElementById('chatTitle').textContent = 'DeepBolt AI';
-                }
-            }
-        }
-
         function askQuestion(question) {
             document.getElementById('messageInput').value = question;
             sendMessage();
@@ -1685,102 +1951,87 @@
             showThinkingIndicator();
 
             try {
-                let response;
+                let enhancedPrompt = message;
                 
+                // Check for image generation request
                 if (isImageRequest(message)) {
-                    // For image generation, we'll simulate it since Gemini doesn't generate images
-                    // In a real implementation, you'd use DALL-E, Midjourney, or Stable Diffusion
-                    response = await generateImageResponse(message);
+                    hideThinkingIndicator();
+                    const imageResponse = `I understand you want to generate an image! While I can't directly create images, I can help you in several ways:
+
+**🎨 Image Generation Options:**
+• **DALL-E 2/3**: Visit openai.com for high-quality AI images
+• **Midjourney**: Discord-based AI art generator
+• **Stable Diffusion**: Free, open-source image generation
+• **Bing Image Creator**: Free Microsoft AI image tool
+
+**📝 What I can do:**
+• Write detailed image prompts for you
+• Suggest composition and style ideas
+• Help refine your creative vision
+• Provide art direction guidance
+
+Would you like me to create a detailed prompt for "${message}" that you can use with any of these image generators?`;
+                    
+                    addMessage(imageResponse, false);
+                    updateConversationTitle(message);
+                    return;
+                }
+                
+                if (isSimpleQuestion(message)) {
+                    enhancedPrompt = `Give a brief, friendly response to: "${message}". Keep it conversational and under 20 words.`;
                 } else {
-                    response = await generateTextResponse(message);
+                    const complexKeywords = ['create', 'build', 'make', 'develop', 'code', 'app', 'game', 'website', 'function', 'program', 'script', 'algorithm', 'explain', 'how to', 'tutorial', 'guide'];
+                    const isComplexRequest = complexKeywords.some(keyword => message.toLowerCase().includes(keyword));
+                    
+                    if (isComplexRequest) {
+                        enhancedPrompt = `Please provide a clear, well-structured, and comprehensive response to: "${message}". Use proper formatting with headers, bullet points, and code blocks where appropriate. Make your response easy to understand and professional.`;
+                    }
                 }
 
-                hideThinkingIndicator();
-                addMessage(response, false);
-                updateConversationTitle(message);
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: enhancedPrompt
+                            }]
+                        }],
+                        generationConfig: {
+                            temperature: 0.7,
+                            topK: 40,
+                            topP: 0.95,
+                            maxOutputTokens: 2048,
+                        }
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
                 
+                if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
+                    const aiResponse = data.candidates[0].content.parts[0].text;
+                    hideThinkingIndicator();
+                    addMessage(aiResponse, false);
+                    updateConversationTitle(message);
+                    
+                    // If voice chat is active, speak the response
+                    if (isVoiceChatActive) {
+                        speakText(aiResponse);
+                    }
+                } else {
+                    throw new Error('Invalid response format');
+                }
             } catch (error) {
                 console.error('Error:', error);
                 hideThinkingIndicator();
                 addMessage('I apologize, but I encountered an error processing your request. Please try again.', false);
             }
-        }
-
-        async function generateTextResponse(message) {
-            let enhancedPrompt = message;
-            
-            if (isSimpleQuestion(message)) {
-                enhancedPrompt = `Give a brief, friendly response to: "${message}". Keep it conversational and under 20 words.`;
-            } else {
-                const complexKeywords = ['create', 'build', 'make', 'develop', 'code', 'app', 'game', 'website', 'function', 'program', 'script', 'algorithm', 'explain', 'how to', 'tutorial', 'guide'];
-                const isComplexRequest = complexKeywords.some(keyword => message.toLowerCase().includes(keyword));
-                
-                if (isComplexRequest) {
-                    enhancedPrompt = `Please provide a clear, well-structured, and comprehensive response to: "${message}". Use proper formatting with headers, bullet points, and code blocks where appropriate. Make your response easy to understand and professional.`;
-                }
-            }
-
-            const response = await fetch(TEXT_API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    contents: [{
-                        parts: [{
-                            text: enhancedPrompt
-                        }]
-                    }],
-                    generationConfig: {
-                        temperature: 0.7,
-                        topK: 40,
-                        topP: 0.95,
-                        maxOutputTokens: 2048,
-                    }
-                })
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}`);
-            }
-
-            const data = await response.json();
-            
-            if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
-                return data.candidates[0].content.parts[0].text;
-            } else {
-                throw new Error('Invalid response format');
-            }
-        }
-
-        async function generateImageResponse(message) {
-            // Since Gemini doesn't generate images, we'll provide a helpful response
-            // In a real implementation, you'd integrate with image generation APIs
-            
-            const imagePrompt = message.replace(/generate|create|make|draw|show me/gi, '').trim();
-            
-            // Simulate image generation with placeholder
-            const imageUrl = `https://via.placeholder.com/512x512/667eea/ffffff?text=Image+Generation+Coming+Soon`;
-            
-            return `I understand you want me to generate an image of "${imagePrompt}". 
-
-While I can't generate images directly yet, I can help you in other ways:
-
-**For Image Generation, you can try:**
-- DALL-E 2/3 by OpenAI
-- Midjourney
-- Stable Diffusion
-- Adobe Firefly
-
-**I can help you with:**
-- Writing detailed image prompts
-- Describing visual concepts
-- Creating ASCII art
-- Suggesting composition ideas
-
-<img src="${imageUrl}" alt="Placeholder for ${imagePrompt}" style="max-width: 100%; border-radius: 8px; margin: 10px 0;">
-
-Would you like me to help you craft a detailed prompt for an image generation tool instead?`;
         }
 
         function addMessage(content, isUser) {
@@ -1853,6 +2104,9 @@ Would you like me to help you craft a detailed prompt for an image generation to
             const thinkingContent = document.createElement('div');
             thinkingContent.className = 'thinking-content';
 
+            const thinkingAvatar = document.createElement('div');
+            thinkingAvatar.className = 'thinking-avatar';
+
             const thinkingText = document.createElement('span');
             thinkingText.className = 'thinking-text';
             thinkingText.textContent = 'DeepBolt AI is thinking';
@@ -1866,6 +2120,7 @@ Would you like me to help you craft a detailed prompt for an image generation to
                 thinkingDots.appendChild(dot);
             }
 
+            thinkingContent.appendChild(thinkingAvatar);
             thinkingContent.appendChild(thinkingText);
             thinkingContent.appendChild(thinkingDots);
             thinkingDiv.appendChild(thinkingContent);
@@ -1928,16 +2183,33 @@ Would you like me to help you craft a detailed prompt for an image generation to
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                     </svg>
                     <span class="conversation-text">${conversation.title}</span>
-                    <button class="delete-chat-btn" onclick="deleteChat('${conversation.id}', event)" title="Delete Chat">
+                    <button class="delete-chat-btn" onclick="deleteConversation('${conversation.id}', event)" title="Delete Chat">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polyline points="3,6 5,6 21,6"></polyline>
-                            <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
+                            <path d="M19,6v14a2,2 0,0,1-2,2H7a2,2,0,0,1-2-2V6m3,0V4a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2v2"></path>
                         </svg>
                     </button>
                 `;
                 
                 conversationsList.appendChild(conversationDiv);
             });
+        }
+
+        function deleteConversation(conversationId, event) {
+            event.stopPropagation();
+            
+            if (confirm('Are you sure you want to delete this conversation?')) {
+                conversations = conversations.filter(c => c.id !== conversationId);
+                
+                if (currentConversationId === conversationId) {
+                    currentConversationId = null;
+                    showWelcomeScreen();
+                    document.getElementById('chatTitle').textContent = 'DeepBolt AI';
+                }
+                
+                saveConversations();
+                renderConversations();
+            }
         }
 
         function loadConversation(conversationId) {
@@ -2048,29 +2320,148 @@ Would you like me to help you craft a detailed prompt for an image generation to
             }
         }
 
+        // Voice Chat Functions
+        function toggleVoiceChat() {
+            if (isVoiceChatActive) {
+                endVoiceChat();
+            } else {
+                startVoiceChat();
+            }
+        }
+
+        function startVoiceChat() {
+            isVoiceChatActive = true;
+            const voiceChatInterface = document.getElementById('voiceChatInterface');
+            const voiceChatBtn = document.getElementById('voiceChatBtn');
+            
+            voiceChatInterface.classList.add('active');
+            voiceChatBtn.classList.add('active');
+            
+            // Start listening
+            if (recognition) {
+                recognition.start();
+            }
+        }
+
+        function endVoiceChat() {
+            isVoiceChatActive = false;
+            const voiceChatInterface = document.getElementById('voiceChatInterface');
+            const voiceChatBtn = document.getElementById('voiceChatBtn');
+            const voiceAvatar = document.getElementById('voiceAvatar');
+            
+            voiceChatInterface.classList.remove('active');
+            voiceChatBtn.classList.remove('active');
+            voiceAvatar.classList.remove('speaking');
+            
+            // Stop listening and speaking
+            if (recognition) {
+                recognition.stop();
+            }
+            if (currentUtterance) {
+                speechSynthesis.cancel();
+            }
+        }
+
         // Speech recognition
         function initSpeechRecognition() {
             if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
                 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
                 recognition = new SpeechRecognition();
-                recognition.continuous = false;
+                recognition.continuous = true;
                 recognition.interimResults = false;
                 recognition.lang = 'en-US';
 
                 recognition.onresult = function(event) {
-                    const transcript = event.results[0][0].transcript;
-                    document.getElementById('messageInput').value = transcript;
-                    stopListening();
+                    const transcript = event.results[event.results.length - 1][0].transcript;
+                    
+                    if (isVoiceChatActive) {
+                        // Process voice command in voice chat mode
+                        processVoiceCommand(transcript);
+                    } else {
+                        // Regular voice input
+                        document.getElementById('messageInput').value = transcript;
+                        stopListening();
+                    }
                 };
 
                 recognition.onerror = function(event) {
                     console.error('Speech recognition error:', event.error);
-                    stopListening();
+                    if (isVoiceChatActive) {
+                        document.getElementById('voiceStatus').textContent = 'Listening...';
+                    } else {
+                        stopListening();
+                    }
                 };
 
                 recognition.onend = function() {
-                    stopListening();
+                    if (isVoiceChatActive) {
+                        // Restart recognition in voice chat mode
+                        setTimeout(() => {
+                            if (isVoiceChatActive) {
+                                recognition.start();
+                            }
+                        }, 1000);
+                    } else {
+                        stopListening();
+                    }
                 };
+            }
+        }
+
+        function processVoiceCommand(transcript) {
+            document.getElementById('voiceStatus').textContent = 'Processing...';
+            
+            // Add the voice message and get AI response
+            if (!currentConversationId) {
+                startNewChat();
+            }
+            
+            addMessage(transcript, true);
+            sendMessage();
+        }
+
+        // Text to Speech
+        function initTextToSpeech() {
+            if ('speechSynthesis' in window) {
+                speechSynthesis = window.speechSynthesis;
+            }
+        }
+
+        function speakText(text) {
+            if (speechSynthesis && isVoiceChatActive) {
+                // Cancel any ongoing speech
+                speechSynthesis.cancel();
+                
+                // Clean text for speech
+                const cleanText = text.replace(/<[^>]*>/g, '').replace(/\*\*/g, '').replace(/\*/g, '');
+                
+                currentUtterance = new SpeechSynthesisUtterance(cleanText);
+                currentUtterance.rate = 0.9;
+                currentUtterance.pitch = 1;
+                currentUtterance.volume = 0.8;
+                
+                // Get a natural voice
+                const voices = speechSynthesis.getVoices();
+                const preferredVoice = voices.find(voice => 
+                    voice.name.includes('Google') || 
+                    voice.name.includes('Microsoft') ||
+                    voice.lang.startsWith('en')
+                );
+                if (preferredVoice) {
+                    currentUtterance.voice = preferredVoice;
+                }
+                
+                currentUtterance.onstart = function() {
+                    document.getElementById('voiceAvatar').classList.add('speaking');
+                    document.getElementById('voiceStatus').textContent = 'Speaking...';
+                };
+                
+                currentUtterance.onend = function() {
+                    document.getElementById('voiceAvatar').classList.remove('speaking');
+                    document.getElementById('voiceStatus').textContent = 'Listening...';
+                };
+                
+                speechSynthesis.speak(currentUtterance);
             }
         }
 
@@ -2099,6 +2490,34 @@ Would you like me to help you craft a detailed prompt for an image generation to
             if (recognition) {
                 recognition.stop();
             }
+        }
+
+        // Premium Functions
+        function openPremiumModal() {
+            document.getElementById('premiumModal').classList.add('active');
+        }
+
+        function closePremiumModal() {
+            document.getElementById('premiumModal').classList.remove('active');
+        }
+
+        function initiateUPIPayment() {
+            // UPI Payment Integration
+            const upiId = 'your-upi-id@paytm'; // Replace with your actual UPI ID
+            const amount = '299';
+            const note = 'DeepBolt AI Premium Subscription';
+            
+            // Create UPI payment URL
+            const upiUrl = `upi://pay?pa=${upiId}&am=${amount}&tn=${encodeURIComponent(note)}&cu=INR`;
+            
+            // Try to open UPI app
+            const link = document.createElement('a');
+            link.href = upiUrl;
+            link.click();
+            
+            // Show success message
+            alert('UPI payment initiated! Complete the payment in your UPI app.');
+            closePremiumModal();
         }
 
         // Mobile responsive handler
@@ -2138,6 +2557,19 @@ Would you like me to help you craft a detailed prompt for an image generation to
             if (isMobile) {
                 e.preventDefault();
             }
+        });
+
+        // Load voices when available
+        if ('speechSynthesis' in window) {
+            speechSynthesis.onvoiceschanged = function() {
+                // Voices are now loaded
+            };
+        }
+
+        // Initialize the app on load
+        window.addEventListener('load', function() {
+            // Show login screen initially
+            showLogin();
         });
     </script>
 </body>
