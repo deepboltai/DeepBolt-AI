@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>DeepBolt AI - Intelligent Assistant</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepBolt AI - Advanced AI Assistant</title>
     <style>
         * {
             margin: 0;
@@ -12,91 +12,70 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #0f0f23;
-            color: #e1e7ef;
-            min-height: 100vh;
-            overflow-x: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            height: 100vh;
+            overflow: hidden;
         }
 
-        /* Login Screen Styles */
-        .login-container {
+        /* Login Screen */
+        .login-screen {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 9999;
-            overflow: hidden;
+            z-index: 10000;
         }
 
-        .login-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 30% 70%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 30%, rgba(241, 147, 251, 0.1) 0%, transparent 50%);
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(1deg); }
-        }
-
-        .login-box {
-            background: rgba(26, 26, 46, 0.9);
+        .login-container {
+            background: rgba(26, 26, 46, 0.95);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(102, 126, 234, 0.2);
-            border-radius: 20px;
-            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 48px;
             text-align: center;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            position: relative;
-            max-width: 400px;
+            max-width: 420px;
             width: 90%;
-            animation: slideInUp 0.8s ease;
-        }
-
-        @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
         }
 
         .login-logo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 24px;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 32px;
+            position: relative;
         }
 
         .login-title {
-            font-size: 32px;
+            font-size: 36px;
             font-weight: 700;
-            margin-bottom: 8px;
-            color: #e1e7ef;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .login-subtitle {
-            color: #8b9dc3;
-            margin-bottom: 32px;
+            color: #a0a0a0;
+            margin-bottom: 40px;
             font-size: 16px;
+            line-height: 1.5;
         }
 
-        .login-options {
+        .login-buttons {
             display: flex;
             flex-direction: column;
             gap: 16px;
         }
 
-        .google-login-btn, .demo-login-btn {
-            width: 100%;
+        .login-btn {
             padding: 16px 24px;
             border: none;
             border-radius: 12px;
@@ -108,342 +87,154 @@
             justify-content: center;
             gap: 12px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            touch-action: manipulation;
+            position: relative;
+            overflow: hidden;
         }
 
-        .google-login-btn {
-            background: #fff;
-            color: #333;
+        .google-btn {
+            background: #ffffff;
+            color: #333333;
         }
 
-        .google-login-btn:hover {
+        .google-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
         }
 
-        .demo-login-btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+        .demo-btn {
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
             color: white;
         }
 
-        .demo-login-btn:hover {
+        .demo-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
         }
 
-        .google-login-btn:active, .demo-login-btn:active {
-            transform: translateY(0);
-        }
-
-        .google-icon {
-            width: 20px;
-            height: 20px;
-        }
-
-        .demo-icon {
-            width: 20px;
-            height: 20px;
-        }
-
-        .loading-spinner {
-            display: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #f3f3f3;
-            border-top: 2px solid #4285f4;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .error-message {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            color: #ef4444;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 16px;
-            font-size: 14px;
-            display: none;
-        }
-
-        .login-divider {
-            position: relative;
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        .login-divider::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: rgba(139, 157, 195, 0.3);
-        }
-
-        .login-divider span {
-            background: rgba(26, 26, 46, 0.9);
-            padding: 0 16px;
-            color: #8b9dc3;
-            font-size: 14px;
-        }
-
-        /* Main App Container */
+        /* Main App */
         .app-container {
-            height: 100vh;
-            display: flex;
-            background: #0f0f23;
-            position: relative;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        .app-container.authenticated {
-            opacity: 1;
-        }
-
-        /* Mobile Overlay */
-        .mobile-overlay {
             display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            height: 100vh;
+            background: #0a0a0a;
         }
 
-        .mobile-overlay.active {
-            display: block;
-            opacity: 1;
+        .app-container.active {
+            display: flex;
         }
 
         /* Sidebar */
         .sidebar {
-            width: 260px;
-            background: #1a1a2e;
-            border-right: 1px solid #2a2a42;
+            width: 280px;
+            background: #111111;
+            border-right: 1px solid #333333;
             display: flex;
             flex-direction: column;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            z-index: 1000;
-        }
-
-        .sidebar.collapsed {
-            width: 0;
-            overflow: hidden;
+            transition: all 0.3s ease;
         }
 
         .sidebar-header {
-            padding: 20px 16px;
-            border-bottom: 1px solid #2a2a42;
+            padding: 24px 20px;
+            border-bottom: 1px solid #333333;
         }
 
-        .app-logo {
+        .app-logo-container {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
 
-        .logo-icon {
-            width: 32px;
-            height: 32px;
-            position: relative;
+        .app-logo {
+            width: 40px;
+            height: 40px;
         }
 
-        .logo-text {
-            font-size: 18px;
+        .app-title {
+            font-size: 20px;
             font-weight: 700;
-            color: #e1e7ef;
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .new-chat-btn {
             width: 100%;
-            padding: 12px 16px;
-            background: #667eea;
+            padding: 14px 20px;
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             transition: all 0.2s ease;
-            touch-action: manipulation;
         }
 
         .new-chat-btn:hover {
-            background: #5a6fd8;
             transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
         }
 
-        .conversations-section {
+        .conversations {
             flex: 1;
-            padding: 16px;
+            padding: 20px;
             overflow-y: auto;
         }
 
-        .section-title {
-            font-size: 11px;
-            font-weight: 600;
-            color: #8b9dc3;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
-            padding: 0 4px;
-        }
-
         .conversation-item {
-            padding: 8px 12px;
-            border-radius: 6px;
-            margin-bottom: 2px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 4px;
             cursor: pointer;
             transition: all 0.2s ease;
-            color: #b8c5d1;
-            font-size: 13px;
+            color: #cccccc;
+            font-size: 14px;
             display: flex;
             align-items: center;
-            gap: 8px;
-            position: relative;
-            touch-action: manipulation;
+            gap: 10px;
         }
 
         .conversation-item:hover {
-            background: #2a2a42;
+            background: #222222;
         }
 
         .conversation-item.active {
-            background: #667eea;
-            color: white;
+            background: linear-gradient(135deg, #00d4ff20, #0099cc20);
+            color: #00d4ff;
         }
 
-        .conversation-item .conversation-text {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            flex: 1;
-        }
-
-        .delete-chat-btn {
-            opacity: 0;
-            background: none;
-            border: none;
-            color: #ef4444;
-            cursor: pointer;
-            padding: 4px;
-            border-radius: 4px;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 20px;
-            height: 20px;
-        }
-
-        .conversation-item:hover .delete-chat-btn {
-            opacity: 1;
-        }
-
-        .delete-chat-btn:hover {
-            background: rgba(239, 68, 68, 0.1);
-        }
-
-        /* Premium Button */
-        .premium-section {
-            padding: 16px;
-            border-bottom: 1px solid #2a2a42;
-        }
-
-        .premium-btn {
-            width: 100%;
-            padding: 12px 16px;
-            background: linear-gradient(135deg, #ffd700, #ffed4e);
-            color: #1a1a2e;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.2s ease;
-            touch-action: manipulation;
-            box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
-        }
-
-        .premium-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
-        }
-
-        /* User Profile Section */
         .user-profile {
-            padding: 16px;
-            border-top: 1px solid #2a2a42;
+            padding: 20px;
+            border-top: 1px solid #333333;
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
         .user-avatar {
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            border: 2px solid #667eea;
+            border: 2px solid #00d4ff;
         }
 
         .user-info {
             flex: 1;
-            min-width: 0;
         }
 
         .user-name {
             font-size: 14px;
             font-weight: 600;
-            color: #e1e7ef;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            color: #ffffff;
         }
 
         .user-email {
             font-size: 12px;
-            color: #8b9dc3;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .logout-btn {
-            padding: 6px;
-            background: transparent;
-            border: none;
-            color: #8b9dc3;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: all 0.2s ease;
-            touch-action: manipulation;
-        }
-
-        .logout-btn:hover {
-            background: #2a2a42;
-            color: #e1e7ef;
+            color: #888888;
         }
 
         /* Main Content */
@@ -451,86 +242,67 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            background: #0f0f23;
-            min-width: 0;
+            background: #0a0a0a;
         }
 
         .chat-header {
-            padding: 16px 24px;
-            border-bottom: 1px solid #2a2a42;
+            padding: 20px 24px;
+            border-bottom: 1px solid #333333;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: #1a1a2e;
+            background: #111111;
         }
 
         .header-left {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 16px;
         }
 
         .menu-toggle {
-            width: 36px;
-            height: 36px;
+            display: none;
+            width: 40px;
+            height: 40px;
             border: none;
-            background: #2a2a42;
-            border-radius: 6px;
+            background: #222222;
+            border-radius: 8px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #b8c5d1;
-            transition: all 0.2s ease;
-            touch-action: manipulation;
-        }
-
-        .menu-toggle:hover {
-            background: #3a3a52;
+            color: #ffffff;
         }
 
         .chat-title {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
-            color: #e1e7ef;
+            color: #ffffff;
         }
 
         .header-controls {
             display: flex;
-            align-items: center;
-            gap: 8px;
+            gap: 12px;
         }
 
         .control-btn {
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             border: none;
-            background: #2a2a42;
-            border-radius: 6px;
+            background: #222222;
+            border-radius: 8px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            color: #ffffff;
             transition: all 0.2s ease;
-            color: #b8c5d1;
-            touch-action: manipulation;
         }
 
         .control-btn:hover {
-            background: #3a3a52;
+            background: #333333;
         }
 
-        .voice-chat-btn {
-            background: #667eea;
-            color: white;
+        .voice-btn {
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
         }
 
-        .voice-chat-btn:hover {
-            background: #5a6fd8;
-        }
-
-        .voice-chat-btn.active {
-            background: #ef4444;
+        .voice-btn.active {
+            background: linear-gradient(135deg, #ff4444, #cc0000);
             animation: pulse 1s infinite;
         }
 
@@ -546,7 +318,6 @@
             padding: 24px;
             overflow-y: auto;
             scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
         }
 
         .welcome-screen {
@@ -556,167 +327,72 @@
             justify-content: center;
             height: 100%;
             text-align: center;
-            max-width: 600px;
-            margin: 0 auto;
         }
 
-        .welcome-icon {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 24px;
-            position: relative;
+        .welcome-logo {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 32px;
         }
 
         .welcome-title {
             font-size: 32px;
             font-weight: 700;
-            color: #e1e7ef;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .welcome-subtitle {
             font-size: 16px;
-            color: #8b9dc3;
-            margin-bottom: 32px;
+            color: #888888;
+            margin-bottom: 40px;
+            max-width: 500px;
         }
 
         .quick-actions {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            max-width: 600px;
             width: 100%;
-            max-width: 500px;
         }
 
         .quick-action {
-            background: #1a1a2e;
-            border: 1px solid #2a2a42;
-            border-radius: 8px;
-            padding: 16px;
+            background: #111111;
+            border: 1px solid #333333;
+            border-radius: 12px;
+            padding: 20px;
             cursor: pointer;
             transition: all 0.2s ease;
             text-align: left;
-            touch-action: manipulation;
         }
 
         .quick-action:hover {
-            background: #2a2a42;
-            border-color: #667eea;
+            background: #1a1a1a;
+            border-color: #00d4ff;
+            transform: translateY(-2px);
         }
 
         .quick-action h3 {
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
-            color: #e1e7ef;
-            margin-bottom: 4px;
+            color: #ffffff;
+            margin-bottom: 8px;
         }
 
         .quick-action p {
-            font-size: 12px;
-            color: #8b9dc3;
+            font-size: 14px;
+            color: #888888;
             line-height: 1.4;
-        }
-
-        /* Voice Chat Interface */
-        .voice-chat-interface {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(15, 15, 35, 0.95);
-            backdrop-filter: blur(20px);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-            flex-direction: column;
-        }
-
-        .voice-chat-interface.active {
-            display: flex;
-        }
-
-        .voice-avatar {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #ffffff, #f0f0f0);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 32px;
-            position: relative;
-            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1);
-        }
-
-        .voice-avatar.speaking {
-            animation: voicePulse 1s ease-in-out infinite;
-        }
-
-        @keyframes voicePulse {
-            0% { transform: scale(1); box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1); }
-            50% { transform: scale(1.05); box-shadow: 0 25px 50px rgba(255, 255, 255, 0.2); }
-            100% { transform: scale(1); box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1); }
-        }
-
-        .voice-avatar::before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            border-radius: 50%;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            animation: voiceRipple 2s linear infinite;
-        }
-
-        @keyframes voiceRipple {
-            0% { transform: scale(0.8); opacity: 1; }
-            100% { transform: scale(1.2); opacity: 0; }
-        }
-
-        .voice-status {
-            font-size: 18px;
-            color: #e1e7ef;
-            margin-bottom: 16px;
-            text-align: center;
-        }
-
-        .voice-controls {
-            display: flex;
-            gap: 16px;
-            align-items: center;
-        }
-
-        .voice-control-btn {
-            width: 60px;
-            height: 60px;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-            font-size: 24px;
-        }
-
-        .voice-end-btn {
-            background: #ef4444;
-            color: white;
-        }
-
-        .voice-end-btn:hover {
-            background: #dc2626;
-            transform: scale(1.05);
         }
 
         /* Message Bubbles */
         .message {
             display: flex;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             animation: slideIn 0.3s ease;
         }
 
@@ -734,349 +410,261 @@
         }
 
         .message-content {
-            max-width: 80%;
-            padding: 14px 16px;
-            border-radius: 12px;
+            max-width: 70%;
+            padding: 16px 20px;
+            border-radius: 18px;
             position: relative;
+            font-size: 15px;
             line-height: 1.6;
-            font-size: 14px;
         }
 
         .message.user .message-content {
-            background: #667eea;
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
             color: white;
+            border-bottom-right-radius: 6px;
         }
 
         .message.ai .message-content {
-            background: #1a1a2e;
-            color: #e1e7ef;
-            border: 1px solid #2a2a42;
+            background: #111111;
+            color: #ffffff;
+            border: 1px solid #333333;
+            border-bottom-left-radius: 6px;
         }
 
-        .message-meta {
+        .message-time {
             font-size: 11px;
-            color: #8b9dc3;
-            margin-top: 6px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 8px;
+            text-align: right;
+        }
+
+        .message.ai .message-time {
+            text-align: left;
+        }
+
+        /* Typing Indicator */
+        .typing-indicator {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            margin-bottom: 24px;
         }
 
-        .message-actions {
-            display: flex;
-            gap: 6px;
-            opacity: 0;
-            transition: opacity 0.2s ease;
-        }
-
-        .message:hover .message-actions {
-            opacity: 1;
-        }
-
-        .action-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 4px;
-            border-radius: 4px;
-            transition: all 0.2s ease;
-            color: #8b9dc3;
-            width: 16px;
-            height: 16px;
-            touch-action: manipulation;
-        }
-
-        .action-btn:hover {
-            color: #e1e7ef;
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        /* AI Response Formatting */
-        .ai-response {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-
-        .ai-response h1, .ai-response h2, .ai-response h3 {
-            color: #e1e7ef;
-            margin: 12px 0 8px 0;
-            font-weight: 600;
-        }
-
-        .ai-response h1 { font-size: 18px; }
-        .ai-response h2 { font-size: 16px; }
-        .ai-response h3 { font-size: 14px; }
-
-        .ai-response p {
-            margin: 8px 0;
-            line-height: 1.6;
-        }
-
-        .ai-response ul, .ai-response ol {
-            margin: 8px 0;
-            padding-left: 20px;
-        }
-
-        .ai-response li {
-            margin: 4px 0;
-        }
-
-        .ai-response code {
-            background: #2a2a42;
-            color: #f8f8f2;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-        }
-
-        .ai-response pre {
-            background: #2a2a42;
-            color: #f8f8f2;
-            padding: 12px;
-            border-radius: 8px;
-            overflow-x: auto;
-            margin: 8px 0;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-        }
-
-        .ai-response blockquote {
-            border-left: 3px solid #667eea;
-            padding-left: 12px;
-            margin: 8px 0;
-            color: #b8c5d1;
-            font-style: italic;
-        }
-
-        /* Thinking Indicator */
-        .thinking-indicator {
-            display: flex;
-            margin-bottom: 20px;
-            animation: slideIn 0.3s ease;
-        }
-
-        .thinking-content {
-            background: #1a1a2e;
-            border: 1px solid #2a2a42;
-            border-radius: 12px;
-            padding: 14px 16px;
+        .typing-content {
+            background: #111111;
+            border: 1px solid #333333;
+            border-radius: 18px;
+            border-bottom-left-radius: 6px;
+            padding: 16px 20px;
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
-        .thinking-avatar {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #ffffff, #f0f0f0);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: thinkingPulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes thinkingPulse {
-            0%, 100% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.1); opacity: 1; }
-        }
-
-        .thinking-text {
-            color: #8b9dc3;
-            font-size: 14px;
-        }
-
-        .thinking-dots {
+        .typing-dots {
             display: flex;
             gap: 4px;
         }
 
-        .thinking-dot {
-            width: 4px;
-            height: 4px;
+        .typing-dot {
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            background: #667eea;
-            animation: thinkingDots 1.4s infinite ease-in-out;
+            background: #00d4ff;
+            animation: typingDots 1.4s infinite ease-in-out;
         }
 
-        .thinking-dot:nth-child(1) { animation-delay: -0.32s; }
-        .thinking-dot:nth-child(2) { animation-delay: -0.16s; }
+        .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dot:nth-child(2) { animation-delay: -0.16s; }
 
-        @keyframes thinkingDots {
+        @keyframes typingDots {
             0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
             40% { transform: scale(1); opacity: 1; }
         }
 
         /* Input Area */
         .chat-input {
-            padding: 16px 24px;
-            border-top: 1px solid #2a2a42;
-            background: #1a1a2e;
+            padding: 24px;
+            border-top: 1px solid #333333;
+            background: #111111;
         }
 
         .input-container {
             display: flex;
             align-items: flex-end;
-            gap: 10px;
-            max-width: 100%;
-            background: #0f0f23;
-            border: 1px solid #2a2a42;
-            border-radius: 12px;
-            padding: 4px;
+            gap: 12px;
+            background: #0a0a0a;
+            border: 2px solid #333333;
+            border-radius: 24px;
+            padding: 8px;
+            transition: all 0.2s ease;
         }
 
-        .input-wrapper {
-            flex: 1;
-            position: relative;
+        .input-container:focus-within {
+            border-color: #00d4ff;
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
         }
 
         .message-input {
-            width: 100%;
-            min-height: 44px;
+            flex: 1;
+            min-height: 24px;
             max-height: 120px;
             padding: 12px 16px;
             border: none;
-            border-radius: 8px;
-            font-size: 14px;
+            background: transparent;
+            color: #ffffff;
+            font-size: 15px;
             font-family: inherit;
             resize: none;
             outline: none;
-            background: transparent;
-            color: #e1e7ef;
-            line-height: 1.5;
         }
 
         .message-input::placeholder {
-            color: #8b9dc3;
+            color: #666666;
         }
 
         .input-btn {
-            width: 44px;
-            height: 44px;
+            width: 40px;
+            height: 40px;
             border: none;
-            border-radius: 8px;
+            border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.2s ease;
             flex-shrink: 0;
-            touch-action: manipulation;
         }
 
         .mic-btn {
-            background: #2a2a42;
-            color: #b8c5d1;
+            background: #222222;
+            color: #ffffff;
         }
 
         .mic-btn:hover {
-            background: #3a3a52;
+            background: #333333;
         }
 
         .mic-btn.listening {
-            background: #ef4444;
-            color: white;
+            background: linear-gradient(135deg, #ff4444, #cc0000);
             animation: pulse 1s infinite;
         }
 
         .send-btn {
-            background: #667eea;
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
             color: white;
         }
 
         .send-btn:hover {
-            background: #5a6fd8;
+            transform: scale(1.05);
         }
 
         .send-btn:disabled {
-            background: #3a3a52;
-            color: #8b9dc3;
+            background: #333333;
+            color: #666666;
             cursor: not-allowed;
+            transform: none;
         }
 
-        /* Premium Modal */
-        .premium-modal {
+        /* Voice Chat Interface */
+        .voice-chat-overlay {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
             display: none;
             align-items: center;
             justify-content: center;
-            z-index: 10001;
+            z-index: 9999;
+            flex-direction: column;
         }
 
-        .premium-modal.active {
+        .voice-chat-overlay.active {
             display: flex;
         }
 
-        .premium-modal-content {
-            background: #1a1a2e;
-            border-radius: 16px;
-            padding: 32px;
-            max-width: 400px;
-            width: 90%;
-            text-align: center;
-            border: 1px solid #2a2a42;
-        }
-
-        .premium-modal h2 {
-            color: #ffd700;
-            margin-bottom: 16px;
-            font-size: 24px;
-        }
-
-        .premium-features {
-            text-align: left;
-            margin: 24px 0;
-        }
-
-        .premium-features li {
-            color: #e1e7ef;
-            margin: 8px 0;
-            list-style: none;
+        .voice-avatar {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 32px;
             position: relative;
-            padding-left: 24px;
         }
 
-        .premium-features li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: #4ade80;
-            font-weight: bold;
+        .voice-avatar.speaking {
+            animation: voicePulse 1s ease-in-out infinite;
         }
 
-        .premium-price {
-            font-size: 32px;
-            font-weight: bold;
-            color: #ffd700;
-            margin: 16px 0;
+        @keyframes voicePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
-        .upi-payment-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #ffd700, #ffed4e);
-            color: #1a1a2e;
+        .voice-status {
+            font-size: 24px;
+            color: #ffffff;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .voice-controls {
+            display: flex;
+            gap: 20px;
+        }
+
+        .voice-control-btn {
+            width: 60px;
+            height: 60px;
             border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .voice-end-btn {
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: white;
+        }
+
+        .voice-end-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Code Formatting */
+        .ai-response pre {
+            background: #1a1a1a;
+            border: 1px solid #333333;
             border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-bottom: 16px;
+            padding: 16px;
+            overflow-x: auto;
+            margin: 12px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
         }
 
-        .modal-close-btn {
-            background: #2a2a42;
-            color: #8b9dc3;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
+        .ai-response code {
+            background: #1a1a1a;
+            color: #00d4ff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+        }
+
+        .ai-response pre code {
+            background: transparent;
+            padding: 0;
+            color: #ffffff;
         }
 
         /* Mobile Responsive */
@@ -1086,195 +674,74 @@
                 top: 0;
                 left: 0;
                 height: 100vh;
-                z-index: 1001;
-                box-shadow: 2px 0 20px rgba(0, 0, 0, 0.4);
-                width: 280px;
+                z-index: 1000;
                 transform: translateX(-100%);
-                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                transition: transform 0.3s ease;
             }
 
             .sidebar.open {
                 transform: translateX(0);
             }
 
-            .sidebar.collapsed {
-                transform: translateX(-100%);
+            .menu-toggle {
+                display: flex;
             }
 
             .main-content {
                 width: 100%;
-                margin-left: 0;
-            }
-
-            .chat-header {
-                padding: 12px 16px;
-            }
-
-            .chat-title {
-                font-size: 14px;
-            }
-
-            .chat-messages {
-                padding: 16px 12px;
-            }
-
-            .chat-input {
-                padding: 12px 16px;
-            }
-
-            .quick-actions {
-                grid-template-columns: 1fr;
-                gap: 8px;
             }
 
             .message-content {
                 max-width: 85%;
-                font-size: 14px;
             }
 
-            .welcome-screen {
-                padding: 20px 16px;
+            .quick-actions {
+                grid-template-columns: 1fr;
             }
 
-            .welcome-title {
-                font-size: 24px;
-            }
-
-            .welcome-subtitle {
-                font-size: 14px;
-            }
-
-            .welcome-icon {
-                width: 60px;
-                height: 60px;
-            }
-
-            .quick-action {
-                padding: 12px;
-            }
-
-            .input-container {
-                gap: 8px;
-            }
-
-            .input-btn {
-                width: 40px;
-                height: 40px;
-            }
-
-            .message-input {
-                font-size: 16px;
-                padding: 10px 14px;
-            }
-
-            .login-box {
-                padding: 30px 20px;
+            .login-container {
+                padding: 32px 24px;
             }
 
             .login-title {
                 font-size: 28px;
             }
-
-            .delete-chat-btn {
-                opacity: 1;
-            }
-
-            .message-actions {
-                opacity: 1;
-            }
-
-            .voice-avatar {
-                width: 150px;
-                height: 150px;
-            }
-
-            .voice-control-btn {
-                width: 50px;
-                height: 50px;
-                font-size: 20px;
-            }
         }
 
-        @media (max-width: 480px) {
-            .chat-header {
-                padding: 10px 12px;
-            }
-
-            .chat-messages {
-                padding: 12px 8px;
-            }
-
-            .chat-input {
-                padding: 8px 12px;
-            }
-
-            .message-content {
-                max-width: 90%;
-                padding: 12px 14px;
-                font-size: 14px;
-            }
-
-            .input-container {
-                padding: 2px;
-            }
-
-            .message-input {
-                padding: 8px 12px;
-            }
-
-            .login-box {
-                padding: 24px 16px;
-            }
-
-            .login-title {
-                font-size: 24px;
-            }
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
         }
 
-        /* Scrollbar Styling */
-        .conversations-section::-webkit-scrollbar,
-        .chat-messages::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .conversations-section::-webkit-scrollbar-track,
-        .chat-messages::-webkit-scrollbar-track {
+        ::-webkit-scrollbar-track {
             background: transparent;
         }
 
-        .conversations-section::-webkit-scrollbar-thumb,
-        .chat-messages::-webkit-scrollbar-thumb {
-            background: #3a3a52;
-            border-radius: 2px;
+        ::-webkit-scrollbar-thumb {
+            background: #333333;
+            border-radius: 3px;
         }
 
-        .conversations-section::-webkit-scrollbar-thumb:hover,
-        .chat-messages::-webkit-scrollbar-thumb:hover {
-            background: #4a4a62;
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444444;
         }
 
-        /* Loading States */
+        /* Loading Animation */
         .loading {
             display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid #3a3a52;
-            border-top: 2px solid #667eea;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #333333;
+            border-top: 2px solid #00d4ff;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
 
-        .error-message-chat {
-            background: #2d1b1b;
-            border: 1px solid #4a2c2c;
-            color: #ff6b6b;
-            padding: 12px;
-            border-radius: 8px;
-            margin: 10px 0;
-            font-size: 13px;
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        /* Hide app initially */
         .hidden {
             display: none !important;
         }
@@ -1282,122 +749,110 @@
 </head>
 <body>
     <!-- Login Screen -->
-    <div class="login-container" id="loginContainer">
-        <div class="login-box">
-            <svg class="login-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="loginLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
-                        <stop offset="50%" style="stop-color:#764ba2;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#f093fb;stop-opacity:1" />
-                    </linearGradient>
-                    <filter id="loginGlow">
-                        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                        <feMerge> 
-                            <feMergeNode in="coloredBlur"/>
-                            <feMergeNode in="SourceGraphic"/>
-                        </feMerge>
-                    </filter>
-                </defs>
-                <circle cx="20" cy="30" r="8" fill="url(#loginLogoGradient)" filter="url(#loginGlow)"/>
-                <circle cx="80" cy="30" r="8" fill="url(#loginLogoGradient)" filter="url(#loginGlow)"/>
-                <circle cx="20" cy="70" r="8" fill="url(#loginLogoGradient)" filter="url(#loginGlow)"/>
-                <circle cx="80" cy="70" r="8" fill="url(#loginLogoGradient)" filter="url(#loginGlow)"/>
-                <circle cx="50" cy="50" r="12" fill="url(#loginLogoGradient)" filter="url(#loginGlow)"/>
-                <line x1="28" y1="30" x2="42" y2="50" stroke="url(#loginLogoGradient)" stroke-width="2" opacity="0.8"/>
-                <line x1="72" y1="30" x2="58" y2="50" stroke="url(#loginLogoGradient)" stroke-width="2" opacity="0.8"/>
-                <line x1="28" y1="70" x2="42" y2="50" stroke="url(#loginLogoGradient)" stroke-width="2" opacity="0.8"/>
-                <line x1="72" y1="70" x2="58" y2="50" stroke="url(#loginLogoGradient)" stroke-width="2" opacity="0.8"/>
-                <circle cx="50" cy="50" r="12" fill="none" stroke="url(#loginLogoGradient)" stroke-width="1" opacity="0.5">
-                    <animate attributeName="r" values="12;18;12" dur="2s" repeatCount="indefinite"/>
-                    <animate attributeName="opacity" values="0.5;0.1;0.5" dur="2s" repeatCount="indefinite"/>
-                </circle>
-            </svg>
+    <div class="login-screen" id="loginScreen">
+        <div class="login-container">
+            <!-- DeepBolt AI Logo -->
+            <div class="login-logo">
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#0099cc;stop-opacity:1" />
+                        </linearGradient>
+                        <filter id="glow">
+                            <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                            <feMerge> 
+                                <feMergeNode in="coloredBlur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    
+                    <!-- Central Circle -->
+                    <circle cx="100" cy="100" r="60" fill="none" stroke="url(#logoGradient)" stroke-width="3" opacity="0.8"/>
+                    
+                    <!-- Animated Lines -->
+                    <g stroke="url(#logoGradient)" stroke-width="2" fill="none" opacity="0.6">
+                        <path d="M 40 100 Q 70 60 100 100 Q 130 140 160 100" class="animated-line">
+                            <animate attributeName="d" 
+                                values="M 40 100 Q 70 60 100 100 Q 130 140 160 100;
+                                        M 40 100 Q 70 140 100 100 Q 130 60 160 100;
+                                        M 40 100 Q 70 60 100 100 Q 130 140 160 100" 
+                                dur="3s" repeatCount="indefinite"/>
+                        </path>
+                        <path d="M 100 40 Q 140 70 100 100 Q 60 130 100 160" class="animated-line">
+                            <animate attributeName="d" 
+                                values="M 100 40 Q 140 70 100 100 Q 60 130 100 160;
+                                        M 100 40 Q 60 70 100 100 Q 140 130 100 160;
+                                        M 100 40 Q 140 70 100 100 Q 60 130 100 160" 
+                                dur="3s" repeatCount="indefinite" begin="1s"/>
+                        </path>
+                    </g>
+                    
+                    <!-- Central AI Text -->
+                    <text x="100" y="110" text-anchor="middle" fill="url(#logoGradient)" font-family="Arial, sans-serif" font-size="32" font-weight="bold" filter="url(#glow)">AI</text>
+                    
+                    <!-- Orbiting Dots -->
+                    <circle r="4" fill="url(#logoGradient)" filter="url(#glow)">
+                        <animateMotion dur="4s" repeatCount="indefinite">
+                            <path d="M 160 100 A 60 60 0 1 1 40 100 A 60 60 0 1 1 160 100"/>
+                        </animateMotion>
+                    </circle>
+                    <circle r="3" fill="url(#logoGradient)" filter="url(#glow)" opacity="0.7">
+                        <animateMotion dur="6s" repeatCount="indefinite">
+                            <path d="M 40 100 A 60 60 0 1 0 160 100 A 60 60 0 1 0 40 100"/>
+                        </animateMotion>
+                    </circle>
+                </svg>
+            </div>
             
             <h1 class="login-title">DeepBolt AI</h1>
-            <p class="login-subtitle">Sign in to continue to your intelligent assistant</p>
+            <p class="login-subtitle">Experience the future of AI conversation with lightning-fast responses and advanced capabilities</p>
             
-            <div class="login-options">
-                <button class="demo-login-btn" onclick="demoLogin()">
-                    <svg class="demo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
-                    </svg>
-                    <span>Try Demo</span>
-                </button>
-                
-                <div class="login-divider">
-                    <span>or</span>
-                </div>
-                
-                <button class="google-login-btn" id="googleLoginBtn" onclick="signInWithGoogle()">
-                    <svg class="google-icon" viewBox="0 0 24 24">
+            <div class="login-buttons">
+                <button class="login-btn google-btn" onclick="signInWithGoogle()">
+                    <svg width="20" height="20" viewBox="0 0 24 24">
                         <path fill="#4285f4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                         <path fill="#34a853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
                         <path fill="#fbbc05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                         <path fill="#ea4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                     </svg>
-                    <span id="loginBtnText">Continue with Google</span>
-                    <div class="loading-spinner" id="loginSpinner"></div>
+                    Continue with Google
+                </button>
+                
+                <button class="login-btn demo-btn" onclick="startDemo()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                    </svg>
+                    Try Demo Mode
                 </button>
             </div>
-            
-            <div class="error-message" id="loginError"></div>
         </div>
     </div>
 
-    <!-- Mobile Overlay -->
-    <div class="mobile-overlay" id="mobileOverlay" onclick="closeSidebar()"></div>
-    
     <!-- Main App -->
-    <div class="app-container hidden" id="appContainer">
+    <div class="app-container" id="appContainer">
         <!-- Sidebar -->
         <div class="sidebar" id="sidebar">
-            <!-- Premium Section -->
-            <div class="premium-section">
-                <button class="premium-btn" onclick="openPremiumModal()">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"></polygon>
-                    </svg>
-                    Upgrade to Premium
-                </button>
-            </div>
-
             <div class="sidebar-header">
-                <div class="app-logo">
-                    <svg class="logo-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
-                                <stop offset="50%" style="stop-color:#764ba2;stop-opacity:1" />
-                                <stop offset="100%" style="stop-color:#f093fb;stop-opacity:1" />
-                            </linearGradient>
-                            <filter id="glow">
-                                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                                <feMerge> 
-                                    <feMergeNode in="coloredBlur"/>
-                                    <feMergeNode in="SourceGraphic"/>
-                                </feMerge>
-                            </filter>
-                        </defs>
-                        <circle cx="20" cy="30" r="8" fill="url(#logoGradient)" filter="url(#glow)"/>
-                        <circle cx="80" cy="30" r="8" fill="url(#logoGradient)" filter="url(#glow)"/>
-                        <circle cx="20" cy="70" r="8" fill="url(#logoGradient)" filter="url(#glow)"/>
-                        <circle cx="80" cy="70" r="8" fill="url(#logoGradient)" filter="url(#glow)"/>
-                        <circle cx="50" cy="50" r="12" fill="url(#logoGradient)" filter="url(#glow)"/>
-                        <line x1="28" y1="30" x2="42" y2="50" stroke="url(#logoGradient)" stroke-width="2" opacity="0.8"/>
-                        <line x1="72" y1="30" x2="58" y2="50" stroke="url(#logoGradient)" stroke-width="2" opacity="0.8"/>
-                        <line x1="28" y1="70" x2="42" y2="50" stroke="url(#logoGradient)" stroke-width="2" opacity="0.8"/>
-                        <line x1="72" y1="70" x2="58" y2="50" stroke="url(#logoGradient)" stroke-width="2" opacity="0.8"/>
-                        <circle cx="50" cy="50" r="12" fill="none" stroke="url(#logoGradient)" stroke-width="1" opacity="0.5">
-                            <animate attributeName="r" values="12;18;12" dur="2s" repeatCount="indefinite"/>
-                            <animate attributeName="opacity" values="0.5;0.1;0.5" dur="2s" repeatCount="indefinite"/>
-                        </circle>
-                    </svg>
-                    <span class="logo-text">DeepBolt</span>
+                <div class="app-logo-container">
+                    <div class="app-logo">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="sidebarLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#0099cc;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <circle cx="100" cy="100" r="60" fill="none" stroke="url(#sidebarLogoGradient)" stroke-width="3" opacity="0.8"/>
+                            <text x="100" y="110" text-anchor="middle" fill="url(#sidebarLogoGradient)" font-family="Arial, sans-serif" font-size="32" font-weight="bold">AI</text>
+                        </svg>
+                    </div>
+                    <div class="app-title">DeepBolt AI</div>
                 </div>
+                
                 <button class="new-chat-btn" onclick="startNewChat()">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <line x1="12" y1="5" x2="12" y2="19"></line>
                         <line x1="5" y1="12" x2="19" y2="12"></line>
                     </svg>
@@ -1405,37 +860,25 @@
                 </button>
             </div>
 
-            <div class="conversations-section">
-                <h3 class="section-title">Recent</h3>
-                <div id="conversationsList">
-                    <!-- Conversations will be added here -->
-                </div>
+            <div class="conversations" id="conversations">
+                <!-- Conversations will be added here -->
             </div>
 
-            <!-- User Profile Section -->
             <div class="user-profile" id="userProfile">
-                <img class="user-avatar" id="userAvatar" src="" alt="User Avatar">
+                <img class="user-avatar" id="userAvatar" src="" alt="User">
                 <div class="user-info">
-                    <div class="user-name" id="userName"></div>
-                    <div class="user-email" id="userEmail"></div>
+                    <div class="user-name" id="userName">Demo User</div>
+                    <div class="user-email" id="userEmail">demo@deepbolt.ai</div>
                 </div>
-                <button class="logout-btn" onclick="signOut()" title="Sign Out">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                        <polyline points="16,17 21,12 16,7"></polyline>
-                        <line x1="21" y1="12" x2="9" y2="12"></line>
-                    </svg>
-                </button>
             </div>
         </div>
 
         <!-- Main Content -->
         <div class="main-content">
-            <!-- Header -->
             <div class="chat-header">
                 <div class="header-left">
                     <button class="menu-toggle" onclick="toggleSidebar()">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <line x1="3" y1="6" x2="21" y2="6"></line>
                             <line x1="3" y1="12" x2="21" y2="12"></line>
                             <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -1445,7 +888,7 @@
                 </div>
 
                 <div class="header-controls">
-                    <button class="control-btn voice-chat-btn" id="voiceChatBtn" onclick="toggleVoiceChat()" title="Voice Chat">
+                    <button class="control-btn voice-btn" id="voiceBtn" onclick="toggleVoiceChat()" title="Voice Chat">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
                             <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
@@ -1453,85 +896,58 @@
                             <line x1="8" y1="23" x2="16" y2="23"></line>
                         </svg>
                     </button>
-                    <button class="control-btn" onclick="regenerateResponse()" title="Regenerate">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="23 4 23 10 17 10"></polyline>
-                            <polyline points="1 20 1 14 7 14"></polyline>
-                            <path d="m3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-                        </svg>
-                    </button>
                 </div>
             </div>
 
-            <!-- Chat Messages -->
             <div class="chat-messages" id="chatMessages">
-                <div class="welcome-screen" id="welcomeScreen">
-                    <svg class="welcome-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="welcomeLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
-                                <stop offset="50%" style="stop-color:#764ba2;stop-opacity:1" />
-                                <stop offset="100%" style="stop-color:#f093fb;stop-opacity:1" />
-                            </linearGradient>
-                            <filter id="welcomeGlow">
-                                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                                <feMerge> 
-                                    <feMergeNode in="coloredBlur"/>
-                                    <feMergeNode in="SourceGraphic"/>
-                                </feMerge>
-                            </filter>
-                        </defs>
-                        <circle cx="20" cy="30" r="8" fill="url(#welcomeLogoGradient)" filter="url(#welcomeGlow)"/>
-                        <circle cx="80" cy="30" r="8" fill="url(#welcomeLogoGradient)" filter="url(#welcomeGlow)"/>
-                        <circle cx="20" cy="70" r="8" fill="url(#welcomeLogoGradient)" filter="url(#welcomeGlow)"/>
-                        <circle cx="80" cy="70" r="8" fill="url(#welcomeLogoGradient)" filter="url(#welcomeGlow)"/>
-                        <circle cx="50" cy="50" r="12" fill="url(#welcomeLogoGradient)" filter="url(#welcomeGlow)"/>
-                        <line x1="28" y1="30" x2="42" y2="50" stroke="url(#welcomeLogoGradient)" stroke-width="2" opacity="0.8"/>
-                        <line x1="72" y1="30" x2="58" y2="50" stroke="url(#welcomeLogoGradient)" stroke-width="2" opacity="0.8"/>
-                        <line x1="28" y1="70" x2="42" y2="50" stroke="url(#welcomeLogoGradient)" stroke-width="2" opacity="0.8"/>
-                        <line x1="72" y1="70" x2="58" y2="50" stroke="url(#welcomeLogoGradient)" stroke-width="2" opacity="0.8"/>
-                        <circle cx="50" cy="50" r="12" fill="none" stroke="url(#welcomeLogoGradient)" stroke-width="1" opacity="0.5">
-                            <animate attributeName="r" values="12;18;12" dur="2s" repeatCount="indefinite"/>
-                            <animate attributeName="opacity" values="0.5;0.1;0.5" dur="2s" repeatCount="indefinite"/>
-                        </circle>
-                    </svg>
+                <div class="welcome-screen">
+                    <div class="welcome-logo">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="welcomeLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#0099cc;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <circle cx="100" cy="100" r="60" fill="none" stroke="url(#welcomeLogoGradient)" stroke-width="3" opacity="0.8"/>
+                            <text x="100" y="110" text-anchor="middle" fill="url(#welcomeLogoGradient)" font-family="Arial, sans-serif" font-size="32" font-weight="bold">AI</text>
+                        </svg>
+                    </div>
+                    
                     <h1 class="welcome-title">Welcome to DeepBolt AI</h1>
-                    <p class="welcome-subtitle">Your intelligent assistant for complex reasoning and problem solving</p>
+                    <p class="welcome-subtitle">Your advanced AI assistant with lightning-fast responses, voice interaction, and intelligent conversation capabilities</p>
                     
                     <div class="quick-actions">
-                        <div class="quick-action" onclick="askQuestion('What are your capabilities?')">
-                            <h3>Capabilities</h3>
-                            <p>Learn about my features and how I can help you</p>
+                        <div class="quick-action" onclick="askQuestion('What are your capabilities and features?')">
+                            <h3>🚀 Capabilities</h3>
+                            <p>Discover my advanced features and how I can assist you</p>
                         </div>
-                        <div class="quick-action" onclick="askQuestion('Write a Python function to sort a list')">
-                            <h3>Coding Help</h3>
-                            <p>Get assistance with programming and code review</p>
+                        <div class="quick-action" onclick="askQuestion('Write a Python function to implement binary search')">
+                            <h3>💻 Code Assistant</h3>
+                            <p>Get help with programming, debugging, and code optimization</p>
                         </div>
-                        <div class="quick-action" onclick="askQuestion('Explain quantum computing')">
-                            <h3>Learning</h3>
-                            <p>Understand complex topics with clear explanations</p>
+                        <div class="quick-action" onclick="askQuestion('Explain machine learning in simple terms')">
+                            <h3>🧠 Learning</h3>
+                            <p>Learn complex topics with clear, detailed explanations</p>
                         </div>
-                        <div class="quick-action" onclick="askQuestion('Help me write an essay')">
-                            <h3>Writing</h3>
-                            <p>Create and improve written content</p>
+                        <div class="quick-action" onclick="askQuestion('Help me write a professional email')">
+                            <h3>✍️ Writing</h3>
+                            <p>Create and improve content, emails, and documents</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Input Area -->
             <div class="chat-input">
                 <div class="input-container">
-                    <div class="input-wrapper">
-                        <textarea 
-                            id="messageInput" 
-                            class="message-input" 
-                            placeholder="Ask DeepBolt anything..."
-                            onkeypress="handleKeyPress(event)"
-                            oninput="autoResize(this)"
-                            rows="1"
-                        ></textarea>
-                    </div>
+                    <textarea 
+                        id="messageInput" 
+                        class="message-input" 
+                        placeholder="Message DeepBolt AI..."
+                        rows="1"
+                        onkeydown="handleKeyDown(event)"
+                        oninput="autoResize(this)"
+                    ></textarea>
                     
                     <button class="input-btn mic-btn" id="micBtn" onclick="toggleSpeechRecognition()" title="Voice Input">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1542,7 +958,7 @@
                         </svg>
                     </button>
                     
-                    <button class="input-btn send-btn" id="sendBtn" onclick="sendMessage()" title="Send Message">
+                    <button class="input-btn send-btn" id="sendBtn" onclick="sendMessage()" title="Send">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <line x1="22" y1="2" x2="11" y2="13"></line>
                             <polygon points="22,2 15,22 11,13 2,9 22,2"></polygon>
@@ -1553,10 +969,10 @@
         </div>
     </div>
 
-    <!-- Voice Chat Interface -->
-    <div class="voice-chat-interface" id="voiceChatInterface">
+    <!-- Voice Chat Overlay -->
+    <div class="voice-chat-overlay" id="voiceChatOverlay">
         <div class="voice-avatar" id="voiceAvatar">
-            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#1a1a2e" stroke-width="2">
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
                 <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
                 <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
                 <line x1="12" y1="19" x2="12" y2="23"></line>
@@ -1574,322 +990,110 @@
         </div>
     </div>
 
-    <!-- Premium Modal -->
-    <div class="premium-modal" id="premiumModal">
-        <div class="premium-modal-content">
-            <h2>🌟 DeepBolt AI Premium</h2>
-            <p style="color: #8b9dc3; margin-bottom: 24px;">Unlock the full potential of AI</p>
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBvOoFKQZ8kXW8dWWf_xSiFq4p3K7_wuMk",
+            authDomain: "deepbolt-ai.firebaseapp.com",
+            projectId: "deepbolt-ai",
+            storageBucket: "deepbolt-ai.appspot.com",
+            messagingSenderId: "123456789012",
+            appId: "1:123456789012:web:abcdef123456789012345678"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        window.auth = auth;
+        window.provider = provider;
+        window.signInWithPopup = signInWithPopup;
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                showApp(user);
+            }
+        });
+
+        function showApp(user) {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('appContainer').classList.add('active');
             
-            <ul class="premium-features">
-                <li>Unlimited AI conversations</li>
-                <li>Advanced image generation</li>
-                <li>Priority response times</li>
-                <li>Voice chat with AI</li>
-                <li>Export chat history</li>
-                <li>Premium support</li>
-            </ul>
+            document.getElementById('userName').textContent = user.displayName || 'User';
+            document.getElementById('userEmail').textContent = user.email;
+            document.getElementById('userAvatar').src = user.photoURL || 'https://via.placeholder.com/40';
             
-            <div class="premium-price">₹299/month</div>
-            
-            <button class="upi-payment-btn" onclick="initiateUPIPayment()">
-                Pay with UPI
-            </button>
-            
-            <button class="modal-close-btn" onclick="closePremiumModal()">
-                Maybe Later
-            </button>
-        </div>
-    </div>
+            window.currentUser = user;
+            initializeApp();
+        }
+    </script>
 
     <script>
-        // Global variables
+        // Global Variables
         let conversations = [];
         let currentConversationId = null;
-        let sidebarOpen = false;
         let isTyping = false;
         let recognition = null;
         let isListening = false;
-        let isMobile = window.innerWidth <= 768;
-        let currentUser = null;
         let isVoiceChatActive = false;
         let speechSynthesis = window.speechSynthesis;
         let currentUtterance = null;
-        let isDemoMode = false;
+        let currentUser = null;
+        let sidebarOpen = false;
 
         // Gemini AI Configuration
         const API_KEY = 'AIzaSyCOjAKOpfpto1YqplzX3HwdNw96tcawWBs';
         const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${API_KEY}`;
 
-        // Demo Login Function
-        function demoLogin() {
-            isDemoMode = true;
-            const demoUser = {
-                uid: 'demo-user-' + Date.now(),
+        // Authentication Functions
+        async function signInWithGoogle() {
+            try {
+                const result = await window.signInWithPopup(window.auth, window.provider);
+                currentUser = result.user;
+            } catch (error) {
+                console.error('Google Sign-in Error:', error);
+                alert('Google sign-in failed. Please try demo mode.');
+            }
+        }
+
+        function startDemo() {
+            currentUser = {
+                uid: 'demo-user',
                 displayName: 'Demo User',
                 email: 'demo@deepbolt.ai',
-                photoURL: 'https://via.placeholder.com/36/667eea/ffffff?text=D'
+                photoURL: 'https://via.placeholder.com/40'
             };
             
-            currentUser = demoUser;
-            showApp(demoUser);
-        }
-
-        // Firebase Google Sign In (placeholder for now)
-        async function signInWithGoogle() {
-            const loginBtn = document.getElementById('googleLoginBtn');
-            const loginBtnText = document.getElementById('loginBtnText');
-            const loginSpinner = document.getElementById('loginSpinner');
-            const errorMessage = document.getElementById('loginError');
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('appContainer').classList.add('active');
             
-            try {
-                // Show loading state
-                loginBtnText.style.display = 'none';
-                loginSpinner.style.display = 'block';
-                loginBtn.disabled = true;
-                errorMessage.style.display = 'none';
-                
-                // Simulate loading for demo
-                await new Promise(resolve => setTimeout(resolve, 2000));
-                
-                // For now, show error message suggesting demo mode
-                throw new Error('Google Sign-In not configured. Please use Demo mode.');
-                
-            } catch (error) {
-                console.error('Authentication error:', error);
-                
-                // Show error message
-                let errorText = 'Google Sign-In is not configured yet. Please use "Try Demo" to test the application.';
-                
-                errorMessage.textContent = errorText;
-                errorMessage.style.display = 'block';
-                
-                // Reset button state
-                loginBtnText.style.display = 'inline';
-                loginSpinner.style.display = 'none';
-                loginBtn.disabled = false;
-            }
-        }
-
-        // Sign Out
-        async function signOut() {
-            try {
-                currentUser = null;
-                isDemoMode = false;
-                
-                // Clear local data
-                conversations = [];
-                currentConversationId = null;
-                
-                // Clear chat messages
-                document.getElementById('chatMessages').innerHTML = '';
-                
-                // Show login screen
-                showLogin();
-                
-            } catch (error) {
-                console.error('Sign out error:', error);
-            }
-        }
-
-        function showApp(user) {
-            const loginContainer = document.getElementById('loginContainer');
-            const appContainer = document.getElementById('appContainer');
+            document.getElementById('userName').textContent = 'Demo User';
+            document.getElementById('userEmail').textContent = 'demo@deepbolt.ai';
+            document.getElementById('userAvatar').src = 'https://via.placeholder.com/40';
             
-            // Update user profile
-            document.getElementById('userName').textContent = user.displayName || 'User';
-            document.getElementById('userEmail').textContent = user.email;
-            document.getElementById('userAvatar').src = user.photoURL || 'https://via.placeholder.com/36';
-            
-            // Hide login and show app
-            loginContainer.style.display = 'none';
-            appContainer.classList.remove('hidden');
-            appContainer.classList.add('authenticated');
-            
-            // Initialize the app
             initializeApp();
         }
 
-        function showLogin() {
-            const loginContainer = document.getElementById('loginContainer');
-            const appContainer = document.getElementById('appContainer');
-            
-            loginContainer.style.display = 'flex';
-            appContainer.classList.add('hidden');
-            appContainer.classList.remove('authenticated');
-        }
-
-        // Initialize app after authentication
+        // App Initialization
         function initializeApp() {
             loadConversations();
             initSpeechRecognition();
-            initTextToSpeech();
             checkMobile();
-            
-            // Show welcome screen
-            showWelcomeScreen();
         }
 
-        // Check if mobile and set initial state
         function checkMobile() {
-            isMobile = window.innerWidth <= 768;
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('mobileOverlay');
-            
+            const isMobile = window.innerWidth <= 768;
             if (isMobile) {
-                sidebar.classList.add('collapsed');
-                sidebarOpen = false;
-            } else {
-                sidebar.classList.remove('collapsed', 'open');
-                overlay.classList.remove('active');
-                sidebarOpen = true;
-            }
-        }
-
-        // Show welcome screen
-        function showWelcomeScreen() {
-            const chatMessages = document.getElementById('chatMessages');
-            chatMessages.innerHTML = `
-                <div class="welcome-screen" id="welcomeScreen">
-                    <svg class="welcome-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <linearGradient id="welcomeLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
-                                <stop offset="50%" style="stop-color:#764ba2;stop-opacity:1" />
-                                <stop offset="100%" style="stop-color:#f093fb;stop-opacity:1" />
-                            </linearGradient>
-                            <filter id="welcomeGlow">
-                                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                                <feMerge> 
-                                    <feMergeNode in="coloredBlur"/>
-                                    <feMergeNode in="SourceGraphic"/>
-                                </feMerge>
-                            </filter>
-                        </defs>
-                        <circle cx="20" cy="30" r="8" fill="url(#welcomeLogoGradient)" filter="url(#welcomeGlow)"/>
-                        <circle cx="80" cy="30" r="8" fill="url(#welcomeLogoGradient)" filter="url(#welcomeGlow)"/>
-                        <circle cx="20" cy="70" r="8" fill="url(#welcomeLogoGradient)" filter="url(#welcomeGlow)"/>
-                        <circle cx="80" cy="70" r="8" fill="url(#welcomeLogoGradient)" filter="url(#welcomeGlow)"/>
-                        <circle cx="50" cy="50" r="12" fill="url(#welcomeLogoGradient)" filter="url(#welcomeGlow)"/>
-                        <line x1="28" y1="30" x2="42" y2="50" stroke="url(#welcomeLogoGradient)" stroke-width="2" opacity="0.8"/>
-                        <line x1="72" y1="30" x2="58" y2="50" stroke="url(#welcomeLogoGradient)" stroke-width="2" opacity="0.8"/>
-                        <line x1="28" y1="70" x2="42" y2="50" stroke="url(#welcomeLogoGradient)" stroke-width="2" opacity="0.8"/>
-                        <line x1="72" y1="70" x2="58" y2="50" stroke="url(#welcomeLogoGradient)" stroke-width="2" opacity="0.8"/>
-                        <circle cx="50" cy="50" r="12" fill="none" stroke="url(#welcomeLogoGradient)" stroke-width="1" opacity="0.5">
-                            <animate attributeName="r" values="12;18;12" dur="2s" repeatCount="indefinite"/>
-                            <animate attributeName="opacity" values="0.5;0.1;0.5" dur="2s" repeatCount="indefinite"/>
-                        </circle>
-                    </svg>
-                    <h1 class="welcome-title">Welcome to DeepBolt AI</h1>
-                    <p class="welcome-subtitle">Your intelligent assistant for complex reasoning and problem solving</p>
-                    
-                    <div class="quick-actions">
-                        <div class="quick-action" onclick="askQuestion('What are your capabilities?')">
-                            <h3>Capabilities</h3>
-                            <p>Learn about my features and how I can help you</p>
-                        </div>
-                        <div class="quick-action" onclick="askQuestion('Write a Python function to sort a list')">
-                            <h3>Coding Help</h3>
-                            <p>Get assistance with programming and code review</p>
-                        </div>
-                        <div class="quick-action" onclick="askQuestion('Explain quantum computing')">
-                            <h3>Learning</h3>
-                            <p>Understand complex topics with clear explanations</p>
-                        </div>
-                        <div class="quick-action" onclick="askQuestion('Help me write an essay')">
-                            <h3>Writing</h3>
-                            <p>Create and improve written content</p>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Enhanced text formatting function
-        function formatAIResponse(text) {
-            let formatted = text
-                .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-                .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-                .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                .replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>')
-                .replace(/`([^`]+)`/g, '<code>$1</code>')
-                .replace(/^\* (.*$)/gim, '<li>$1</li>')
-                .replace(/^- (.*$)/gim, '<li>$1</li>')
-                .replace(/^\d+\. (.*$)/gim, '<li>$1</li>')
-                .replace(/\n\n/g, '</p><p>')
-                .replace(/\n/g, '<br>');
-
-            formatted = '<p>' + formatted + '</p>';
-            formatted = formatted.replace(/<\/p><p><li>/g, '</p><ul><li>');
-            formatted = formatted.replace(/<\/li><p>/g, '</li></ul><p>');
-            formatted = formatted.replace(/<p><\/p>/g, '');
-
-            return formatted;
-        }
-
-        // Image generation detection
-        function isImageRequest(message) {
-            const imageKeywords = [
-                'generate image', 'create image', 'draw', 'make image', 'generate picture',
-                'create picture', 'design', 'illustrate', 'sketch', 'paint', 'artwork',
-                'generate art', 'create art', 'make art', 'visual', 'graphic'
-            ];
-            
-            return imageKeywords.some(keyword => 
-                message.toLowerCase().includes(keyword.toLowerCase())
-            );
-        }
-
-        // Simple response checker
-        function isSimpleQuestion(message) {
-            const simplePatterns = [
-                /^(hi|hello|hey|hola|namaste)$/i,
-                /^(how are you|what's up|wassup)$/i,
-                /^(thanks|thank you|thx)$/i,
-                /^(bye|goodbye|see you)$/i,
-                /^(yes|no|ok|okay)$/i,
-                /^(good morning|good evening|good night)$/i
-            ];
-            
-            return simplePatterns.some(pattern => pattern.test(message.trim()));
-        }
-
-        // App functions
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('mobileOverlay');
-            
-            if (isMobile) {
-                sidebarOpen = !sidebarOpen;
-                
-                if (sidebarOpen) {
-                    sidebar.classList.remove('collapsed');
-                    sidebar.classList.add('open');
-                    overlay.classList.add('active');
-                } else {
-                    sidebar.classList.add('collapsed');
-                    sidebar.classList.remove('open');
-                    overlay.classList.remove('active');
-                }
-            } else {
-                sidebarOpen = !sidebarOpen;
-                sidebar.classList.toggle('collapsed', !sidebarOpen);
-            }
-        }
-
-        function closeSidebar() {
-            if (isMobile && sidebarOpen) {
-                const sidebar = document.getElementById('sidebar');
-                const overlay = document.getElementById('mobileOverlay');
-                
-                sidebar.classList.add('collapsed');
-                sidebar.classList.remove('open');
-                overlay.classList.remove('active');
+                document.getElementById('sidebar').classList.remove('open');
                 sidebarOpen = false;
             }
         }
 
+        // Chat Functions
         function startNewChat() {
             currentConversationId = Date.now().toString();
             const newConversation = {
@@ -1903,13 +1107,54 @@
             conversations.unshift(newConversation);
             saveConversations();
             renderConversations();
-            
             showWelcomeScreen();
             document.getElementById('chatTitle').textContent = 'DeepBolt AI';
             
-            if (isMobile) {
-                closeSidebar();
+            if (window.innerWidth <= 768) {
+                toggleSidebar();
             }
+        }
+
+        function showWelcomeScreen() {
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML = `
+                <div class="welcome-screen">
+                    <div class="welcome-logo">
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="welcomeLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#0099cc;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <circle cx="100" cy="100" r="60" fill="none" stroke="url(#welcomeLogoGradient)" stroke-width="3" opacity="0.8"/>
+                            <text x="100" y="110" text-anchor="middle" fill="url(#welcomeLogoGradient)" font-family="Arial, sans-serif" font-size="32" font-weight="bold">AI</text>
+                        </svg>
+                    </div>
+                    
+                    <h1 class="welcome-title">Welcome to DeepBolt AI</h1>
+                    <p class="welcome-subtitle">Your advanced AI assistant with lightning-fast responses, voice interaction, and intelligent conversation capabilities</p>
+                    
+                    <div class="quick-actions">
+                        <div class="quick-action" onclick="askQuestion('What are your capabilities and features?')">
+                            <h3>🚀 Capabilities</h3>
+                            <p>Discover my advanced features and how I can assist you</p>
+                        </div>
+                        <div class="quick-action" onclick="askQuestion('Write a Python function to implement binary search')">
+                            <h3>💻 Code Assistant</h3>
+                            <p>Get help with programming, debugging, and code optimization</p>
+                        </div>
+                        <div class="quick-action" onclick="askQuestion('Explain machine learning in simple terms')">
+                            <h3>🧠 Learning</h3>
+                            <p>Learn complex topics with clear, detailed explanations</p>
+                        </div>
+                        <div class="quick-action" onclick="askQuestion('Help me write a professional email')">
+                            <h3>✍️ Writing</h3>
+                            <p>Create and improve content, emails, and documents</p>
+                        </div>
+                    </div>
+                </div>
+            `;
         }
 
         function askQuestion(question) {
@@ -1917,7 +1162,7 @@
             sendMessage();
         }
 
-        function handleKeyPress(event) {
+        function handleKeyDown(event) {
             if (event.key === 'Enter' && !event.shiftKey) {
                 event.preventDefault();
                 sendMessage();
@@ -1935,7 +1180,8 @@
             
             if (!message || isTyping) return;
 
-            const welcomeScreen = document.getElementById('welcomeScreen');
+            // Hide welcome screen
+            const welcomeScreen = document.querySelector('.welcome-screen');
             if (welcomeScreen) {
                 welcomeScreen.style.display = 'none';
             }
@@ -1948,44 +1194,15 @@
             input.value = '';
             autoResize(input);
 
-            showThinkingIndicator();
+            showTypingIndicator();
 
             try {
+                // Enhanced prompt for better responses
                 let enhancedPrompt = message;
                 
-                // Check for image generation request
-                if (isImageRequest(message)) {
-                    hideThinkingIndicator();
-                    const imageResponse = `I understand you want to generate an image! While I can't directly create images, I can help you in several ways:
-
-**🎨 Image Generation Options:**
-• **DALL-E 2/3**: Visit openai.com for high-quality AI images
-• **Midjourney**: Discord-based AI art generator
-• **Stable Diffusion**: Free, open-source image generation
-• **Bing Image Creator**: Free Microsoft AI image tool
-
-**📝 What I can do:**
-• Write detailed image prompts for you
-• Suggest composition and style ideas
-• Help refine your creative vision
-• Provide art direction guidance
-
-Would you like me to create a detailed prompt for "${message}" that you can use with any of these image generators?`;
-                    
-                    addMessage(imageResponse, false);
-                    updateConversationTitle(message);
-                    return;
-                }
-                
-                if (isSimpleQuestion(message)) {
-                    enhancedPrompt = `Give a brief, friendly response to: "${message}". Keep it conversational and under 20 words.`;
-                } else {
-                    const complexKeywords = ['create', 'build', 'make', 'develop', 'code', 'app', 'game', 'website', 'function', 'program', 'script', 'algorithm', 'explain', 'how to', 'tutorial', 'guide'];
-                    const isComplexRequest = complexKeywords.some(keyword => message.toLowerCase().includes(keyword));
-                    
-                    if (isComplexRequest) {
-                        enhancedPrompt = `Please provide a clear, well-structured, and comprehensive response to: "${message}". Use proper formatting with headers, bullet points, and code blocks where appropriate. Make your response easy to understand and professional.`;
-                    }
+                // Check if asking about owner
+                if (message.toLowerCase().includes('owner') || message.toLowerCase().includes('creator') || message.toLowerCase().includes('who made you')) {
+                    enhancedPrompt = `My owner and creator is DeepBolt AI. Please respond naturally about this. Original question: ${message}`;
                 }
 
                 const response = await fetch(API_URL, {
@@ -2016,11 +1233,11 @@ Would you like me to create a detailed prompt for "${message}" that you can use 
                 
                 if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
                     const aiResponse = data.candidates[0].content.parts[0].text;
-                    hideThinkingIndicator();
+                    hideTypingIndicator();
                     addMessage(aiResponse, false);
                     updateConversationTitle(message);
                     
-                    // If voice chat is active, speak the response
+                    // Voice response if voice chat is active
                     if (isVoiceChatActive) {
                         speakText(aiResponse);
                     }
@@ -2029,8 +1246,8 @@ Would you like me to create a detailed prompt for "${message}" that you can use 
                 }
             } catch (error) {
                 console.error('Error:', error);
-                hideThinkingIndicator();
-                addMessage('I apologize, but I encountered an error processing your request. Please try again.', false);
+                hideTypingIndicator();
+                addMessage('I apologize, but I encountered an error. Please try again.', false);
             }
         }
 
@@ -2045,42 +1262,19 @@ Would you like me to create a detailed prompt for "${message}" that you can use 
             if (isUser) {
                 messageContent.textContent = content;
             } else {
-                const formattedContent = formatAIResponse(content);
-                messageContent.innerHTML = `<div class="ai-response">${formattedContent}</div>`;
+                messageContent.innerHTML = `<div class="ai-response">${formatAIResponse(content)}</div>`;
             }
             
-            const messageMeta = document.createElement('div');
-            messageMeta.className = 'message-meta';
+            const messageTime = document.createElement('div');
+            messageTime.className = 'message-time';
+            messageTime.textContent = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
             
-            const timeSpan = document.createElement('span');
-            timeSpan.textContent = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            messageMeta.appendChild(timeSpan);
-
-            if (!isUser) {
-                const actionsDiv = document.createElement('div');
-                actionsDiv.className = 'message-actions';
-                
-                const copyBtn = document.createElement('button');
-                copyBtn.className = 'action-btn';
-                copyBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                </svg>`;
-                
-                copyBtn.onclick = function() {
-                    copyToClipboard(content, copyBtn);
-                };
-                
-                actionsDiv.appendChild(copyBtn);
-                messageMeta.appendChild(actionsDiv);
-            }
-
-            messageContent.appendChild(messageMeta);
+            messageContent.appendChild(messageTime);
             messageDiv.appendChild(messageContent);
-
             messagesContainer.appendChild(messageDiv);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
+            // Save to conversation
             if (currentConversationId) {
                 const conversation = conversations.find(c => c.id === currentConversationId);
                 if (conversation) {
@@ -2094,60 +1288,65 @@ Would you like me to create a detailed prompt for "${message}" that you can use 
             }
         }
 
-        function showThinkingIndicator() {
+        function formatAIResponse(text) {
+            // Enhanced formatting for better code display
+            let formatted = text
+                .replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>')
+                .replace(/`([^`]+)`/g, '<code>$1</code>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+                .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+                .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+                .replace(/^\* (.*$)/gim, '<li>$1</li>')
+                .replace(/^- (.*$)/gim, '<li>$1</li>')
+                .replace(/^\d+\. (.*$)/gim, '<li>$1</li>')
+                .replace(/\n\n/g, '</p><p>')
+                .replace(/\n/g, '<br>');
+
+            formatted = '<p>' + formatted + '</p>';
+            formatted = formatted.replace(/<\/p><p><li>/g, '</p><ul><li>');
+            formatted = formatted.replace(/<\/li><p>/g, '</li></ul><p>');
+            formatted = formatted.replace(/<p><\/p>/g, '');
+
+            return formatted;
+        }
+
+        function showTypingIndicator() {
             isTyping = true;
             const messagesContainer = document.getElementById('chatMessages');
-            const thinkingDiv = document.createElement('div');
-            thinkingDiv.className = 'thinking-indicator';
-            thinkingDiv.id = 'thinkingIndicator';
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'typing-indicator';
+            typingDiv.id = 'typingIndicator';
 
-            const thinkingContent = document.createElement('div');
-            thinkingContent.className = 'thinking-content';
+            const typingContent = document.createElement('div');
+            typingContent.className = 'typing-content';
 
-            const thinkingAvatar = document.createElement('div');
-            thinkingAvatar.className = 'thinking-avatar';
+            const typingText = document.createElement('span');
+            typingText.textContent = 'DeepBolt AI is thinking';
 
-            const thinkingText = document.createElement('span');
-            thinkingText.className = 'thinking-text';
-            thinkingText.textContent = 'DeepBolt AI is thinking';
-
-            const thinkingDots = document.createElement('div');
-            thinkingDots.className = 'thinking-dots';
+            const typingDots = document.createElement('div');
+            typingDots.className = 'typing-dots';
 
             for (let i = 0; i < 3; i++) {
                 const dot = document.createElement('div');
-                dot.className = 'thinking-dot';
-                thinkingDots.appendChild(dot);
+                dot.className = 'typing-dot';
+                typingDots.appendChild(dot);
             }
 
-            thinkingContent.appendChild(thinkingAvatar);
-            thinkingContent.appendChild(thinkingText);
-            thinkingContent.appendChild(thinkingDots);
-            thinkingDiv.appendChild(thinkingContent);
-            messagesContainer.appendChild(thinkingDiv);
+            typingContent.appendChild(typingText);
+            typingContent.appendChild(typingDots);
+            typingDiv.appendChild(typingContent);
+            messagesContainer.appendChild(typingDiv);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
 
-        function hideThinkingIndicator() {
+        function hideTypingIndicator() {
             isTyping = false;
-            const thinkingIndicator = document.getElementById('thinkingIndicator');
-            if (thinkingIndicator) {
-                thinkingIndicator.remove();
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
             }
-        }
-
-        function copyToClipboard(text, button) {
-            navigator.clipboard.writeText(text).then(function() {
-                button.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="20,6 9,17 4,12"></polyline>
-                </svg>`;
-                setTimeout(() => {
-                    button.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                    </svg>`;
-                }, 2000);
-            });
         }
 
         function updateConversationTitle(firstMessage) {
@@ -2162,11 +1361,11 @@ Would you like me to create a detailed prompt for "${message}" that you can use 
             }
         }
 
+        // Conversation Management
         function renderConversations() {
-            const conversationsList = document.getElementById('conversationsList');
-            conversationsList.innerHTML = '';
+            const conversationsContainer = document.getElementById('conversations');
+            conversationsContainer.innerHTML = '';
             
-            // Filter conversations for current user
             const userConversations = conversations.filter(c => !c.userId || c.userId === currentUser?.uid);
             
             userConversations.forEach(conversation => {
@@ -2179,37 +1378,14 @@ Would you like me to create a detailed prompt for "${message}" that you can use 
                 conversationDiv.onclick = () => loadConversation(conversation.id);
                 
                 conversationDiv.innerHTML = `
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                     </svg>
-                    <span class="conversation-text">${conversation.title}</span>
-                    <button class="delete-chat-btn" onclick="deleteConversation('${conversation.id}', event)" title="Delete Chat">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="3,6 5,6 21,6"></polyline>
-                            <path d="M19,6v14a2,2 0,0,1-2,2H7a2,2,0,0,1-2-2V6m3,0V4a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2v2"></path>
-                        </svg>
-                    </button>
+                    <span>${conversation.title}</span>
                 `;
                 
-                conversationsList.appendChild(conversationDiv);
+                conversationsContainer.appendChild(conversationDiv);
             });
-        }
-
-        function deleteConversation(conversationId, event) {
-            event.stopPropagation();
-            
-            if (confirm('Are you sure you want to delete this conversation?')) {
-                conversations = conversations.filter(c => c.id !== conversationId);
-                
-                if (currentConversationId === conversationId) {
-                    currentConversationId = null;
-                    showWelcomeScreen();
-                    document.getElementById('chatTitle').textContent = 'DeepBolt AI';
-                }
-                
-                saveConversations();
-                renderConversations();
-            }
         }
 
         function loadConversation(conversationId) {
@@ -2227,8 +1403,8 @@ Would you like me to create a detailed prompt for "${message}" that you can use 
                 renderConversations();
                 document.getElementById('chatTitle').textContent = conversation.title;
                 
-                if (isMobile) {
-                    closeSidebar();
+                if (window.innerWidth <= 768) {
+                    toggleSidebar();
                 }
             }
         }
@@ -2244,38 +1420,15 @@ Would you like me to create a detailed prompt for "${message}" that you can use 
             if (isUser) {
                 messageContent.textContent = content;
             } else {
-                const formattedContent = formatAIResponse(content);
-                messageContent.innerHTML = `<div class="ai-response">${formattedContent}</div>`;
+                messageContent.innerHTML = `<div class="ai-response">${formatAIResponse(content)}</div>`;
             }
             
-            const messageMeta = document.createElement('div');
-            messageMeta.className = 'message-meta';
+            const messageTime = document.createElement('div');
+            messageTime.className = 'message-time';
+            messageTime.textContent = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
             
-            const timeSpan = document.createElement('span');
-            timeSpan.textContent = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            messageMeta.appendChild(timeSpan);
-
-            if (!isUser) {
-                const actionsDiv = document.createElement('div');
-                actionsDiv.className = 'message-actions';
-                
-                const copyBtn = document.createElement('button');
-                copyBtn.className = 'action-btn';
-                copyBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                </svg>`;
-                copyBtn.onclick = function() {
-                    copyToClipboard(content, copyBtn);
-                };
-                
-                actionsDiv.appendChild(copyBtn);
-                messageMeta.appendChild(actionsDiv);
-            }
-
-            messageContent.appendChild(messageMeta);
+            messageContent.appendChild(messageTime);
             messageDiv.appendChild(messageContent);
-
             messagesContainer.appendChild(messageDiv);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
@@ -2296,73 +1449,7 @@ Would you like me to create a detailed prompt for "${message}" that you can use 
             }
         }
 
-        function regenerateResponse() {
-            if (currentConversationId) {
-                const conversation = conversations.find(c => c.id === currentConversationId);
-                if (conversation && conversation.messages.length > 0) {
-                    const lastUserMessage = [...conversation.messages].reverse().find(m => m.isUser);
-                    if (lastUserMessage) {
-                        const lastAiIndex = conversation.messages.map(m => m.isUser).lastIndexOf(false);
-                        if (lastAiIndex !== -1) {
-                            conversation.messages.splice(lastAiIndex, 1);
-                            
-                            const chatMessages = document.getElementById('chatMessages');
-                            const messages = chatMessages.querySelectorAll('.message');
-                            if (messages.length > 0) {
-                                messages[messages.length - 1].remove();
-                            }
-                        }
-                        
-                        document.getElementById('messageInput').value = lastUserMessage.content;
-                        sendMessage();
-                    }
-                }
-            }
-        }
-
-        // Voice Chat Functions
-        function toggleVoiceChat() {
-            if (isVoiceChatActive) {
-                endVoiceChat();
-            } else {
-                startVoiceChat();
-            }
-        }
-
-        function startVoiceChat() {
-            isVoiceChatActive = true;
-            const voiceChatInterface = document.getElementById('voiceChatInterface');
-            const voiceChatBtn = document.getElementById('voiceChatBtn');
-            
-            voiceChatInterface.classList.add('active');
-            voiceChatBtn.classList.add('active');
-            
-            // Start listening
-            if (recognition) {
-                recognition.start();
-            }
-        }
-
-        function endVoiceChat() {
-            isVoiceChatActive = false;
-            const voiceChatInterface = document.getElementById('voiceChatInterface');
-            const voiceChatBtn = document.getElementById('voiceChatBtn');
-            const voiceAvatar = document.getElementById('voiceAvatar');
-            
-            voiceChatInterface.classList.remove('active');
-            voiceChatBtn.classList.remove('active');
-            voiceAvatar.classList.remove('speaking');
-            
-            // Stop listening and speaking
-            if (recognition) {
-                recognition.stop();
-            }
-            if (currentUtterance) {
-                speechSynthesis.cancel();
-            }
-        }
-
-        // Speech recognition
+        // Voice Functions
         function initSpeechRecognition() {
             if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
                 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -2375,10 +1462,8 @@ Would you like me to create a detailed prompt for "${message}" that you can use 
                     const transcript = event.results[event.results.length - 1][0].transcript;
                     
                     if (isVoiceChatActive) {
-                        // Process voice command in voice chat mode
                         processVoiceCommand(transcript);
                     } else {
-                        // Regular voice input
                         document.getElementById('messageInput').value = transcript;
                         stopListening();
                     }
@@ -2386,16 +1471,11 @@ Would you like me to create a detailed prompt for "${message}" that you can use 
 
                 recognition.onerror = function(event) {
                     console.error('Speech recognition error:', event.error);
-                    if (isVoiceChatActive) {
-                        document.getElementById('voiceStatus').textContent = 'Listening...';
-                    } else {
-                        stopListening();
-                    }
+                    stopListening();
                 };
 
                 recognition.onend = function() {
                     if (isVoiceChatActive) {
-                        // Restart recognition in voice chat mode
                         setTimeout(() => {
                             if (isVoiceChatActive) {
                                 recognition.start();
@@ -2405,63 +1485,6 @@ Would you like me to create a detailed prompt for "${message}" that you can use 
                         stopListening();
                     }
                 };
-            }
-        }
-
-        function processVoiceCommand(transcript) {
-            document.getElementById('voiceStatus').textContent = 'Processing...';
-            
-            // Add the voice message and get AI response
-            if (!currentConversationId) {
-                startNewChat();
-            }
-            
-            addMessage(transcript, true);
-            sendMessage();
-        }
-
-        // Text to Speech
-        function initTextToSpeech() {
-            if ('speechSynthesis' in window) {
-                speechSynthesis = window.speechSynthesis;
-            }
-        }
-
-        function speakText(text) {
-            if (speechSynthesis && isVoiceChatActive) {
-                // Cancel any ongoing speech
-                speechSynthesis.cancel();
-                
-                // Clean text for speech
-                const cleanText = text.replace(/<[^>]*>/g, '').replace(/\*\*/g, '').replace(/\*/g, '');
-                
-                currentUtterance = new SpeechSynthesisUtterance(cleanText);
-                currentUtterance.rate = 0.9;
-                currentUtterance.pitch = 1;
-                currentUtterance.volume = 0.8;
-                
-                // Get a natural voice
-                const voices = speechSynthesis.getVoices();
-                const preferredVoice = voices.find(voice => 
-                    voice.name.includes('Google') || 
-                    voice.name.includes('Microsoft') ||
-                    voice.lang.startsWith('en')
-                );
-                if (preferredVoice) {
-                    currentUtterance.voice = preferredVoice;
-                }
-                
-                currentUtterance.onstart = function() {
-                    document.getElementById('voiceAvatar').classList.add('speaking');
-                    document.getElementById('voiceStatus').textContent = 'Speaking...';
-                };
-                
-                currentUtterance.onend = function() {
-                    document.getElementById('voiceAvatar').classList.remove('speaking');
-                    document.getElementById('voiceStatus').textContent = 'Listening...';
-                };
-                
-                speechSynthesis.speak(currentUtterance);
             }
         }
 
@@ -2492,85 +1515,115 @@ Would you like me to create a detailed prompt for "${message}" that you can use 
             }
         }
 
-        // Premium Functions
-        function openPremiumModal() {
-            document.getElementById('premiumModal').classList.add('active');
+        function toggleVoiceChat() {
+            if (isVoiceChatActive) {
+                endVoiceChat();
+            } else {
+                startVoiceChat();
+            }
         }
 
-        function closePremiumModal() {
-            document.getElementById('premiumModal').classList.remove('active');
+        function startVoiceChat() {
+            isVoiceChatActive = true;
+            document.getElementById('voiceChatOverlay').classList.add('active');
+            document.getElementById('voiceBtn').classList.add('active');
+            
+            if (recognition) {
+                recognition.start();
+            }
         }
 
-        function initiateUPIPayment() {
-            // UPI Payment Integration
-            const upiId = 'your-upi-id@paytm'; // Replace with your actual UPI ID
-            const amount = '299';
-            const note = 'DeepBolt AI Premium Subscription';
+        function endVoiceChat() {
+            isVoiceChatActive = false;
+            document.getElementById('voiceChatOverlay').classList.remove('active');
+            document.getElementById('voiceBtn').classList.remove('active');
+            document.getElementById('voiceAvatar').classList.remove('speaking');
             
-            // Create UPI payment URL
-            const upiUrl = `upi://pay?pa=${upiId}&am=${amount}&tn=${encodeURIComponent(note)}&cu=INR`;
-            
-            // Try to open UPI app
-            const link = document.createElement('a');
-            link.href = upiUrl;
-            link.click();
-            
-            // Show success message
-            alert('UPI payment initiated! Complete the payment in your UPI app.');
-            closePremiumModal();
+            if (recognition) {
+                recognition.stop();
+            }
+            if (currentUtterance) {
+                speechSynthesis.cancel();
+            }
         }
 
-        // Mobile responsive handler
-        window.addEventListener('resize', function() {
-            const wasIsMobile = isMobile;
-            checkMobile();
+        function processVoiceCommand(transcript) {
+            document.getElementById('voiceStatus').textContent = 'Processing...';
             
-            if (wasIsMobile !== isMobile) {
-                const sidebar = document.getElementById('sidebar');
-                const overlay = document.getElementById('mobileOverlay');
+            if (!currentConversationId) {
+                startNewChat();
+            }
+            
+            addMessage(transcript, true);
+            
+            // Hide welcome screen
+            const welcomeScreen = document.querySelector('.welcome-screen');
+            if (welcomeScreen) {
+                welcomeScreen.style.display = 'none';
+            }
+            
+            // Process the message
+            setTimeout(() => {
+                sendMessage();
+            }, 100);
+        }
+
+        function speakText(text) {
+            if (speechSynthesis && isVoiceChatActive) {
+                speechSynthesis.cancel();
                 
-                if (!isMobile) {
-                    sidebar.classList.remove('open', 'collapsed');
-                    overlay.classList.remove('active');
-                    sidebarOpen = true;
-                } else {
-                    sidebar.classList.add('collapsed');
-                    sidebar.classList.remove('open');
-                    overlay.classList.remove('active');
-                    sidebarOpen = false;
+                const cleanText = text.replace(/<[^>]*>/g, '').replace(/\*\*/g, '').replace(/\*/g, '');
+                
+                currentUtterance = new SpeechSynthesisUtterance(cleanText);
+                currentUtterance.rate = 1.0;
+                currentUtterance.pitch = 1.0;
+                currentUtterance.volume = 0.8;
+                
+                const voices = speechSynthesis.getVoices();
+                const preferredVoice = voices.find(voice => 
+                    voice.name.includes('Google') || 
+                    voice.name.includes('Microsoft') ||
+                    voice.lang.startsWith('en')
+                );
+                if (preferredVoice) {
+                    currentUtterance.voice = preferredVoice;
                 }
+                
+                currentUtterance.onstart = function() {
+                    document.getElementById('voiceAvatar').classList.add('speaking');
+                    document.getElementById('voiceStatus').textContent = 'Speaking...';
+                };
+                
+                currentUtterance.onend = function() {
+                    document.getElementById('voiceAvatar').classList.remove('speaking');
+                    document.getElementById('voiceStatus').textContent = 'Listening...';
+                };
+                
+                speechSynthesis.speak(currentUtterance);
             }
-        });
+        }
 
-        // Prevent zoom on double tap for iOS
-        let lastTouchEnd = 0;
-        document.addEventListener('touchend', function (event) {
-            const now = (new Date()).getTime();
-            if (now - lastTouchEnd <= 300) {
-                event.preventDefault();
+        // UI Functions
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebarOpen = !sidebarOpen;
+            
+            if (sidebarOpen) {
+                sidebar.classList.add('open');
+            } else {
+                sidebar.classList.remove('open');
             }
-            lastTouchEnd = now;
-        }, false);
+        }
 
-        // Prevent context menu on long press for mobile
-        document.addEventListener('contextmenu', function(e) {
-            if (isMobile) {
-                e.preventDefault();
-            }
-        });
+        // Mobile responsive
+        window.addEventListener('resize', checkMobile);
 
         // Load voices when available
         if ('speechSynthesis' in window) {
             speechSynthesis.onvoiceschanged = function() {
-                // Voices are now loaded
+                // Voices loaded
             };
         }
-
-        // Initialize the app on load
-        window.addEventListener('load', function() {
-            // Show login screen initially
-            showLogin();
-        });
     </script>
 </body>
 </html>
