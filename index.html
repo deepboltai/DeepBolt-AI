@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>DeepBolt AI - ChatGPT Style</title>
+    <title>DeepBolt AI - Advanced AI Assistant</title>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         * {
@@ -12,10 +12,26 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --bg-primary: #0f1419;
+            --bg-secondary: #1a1f2e;
+            --bg-tertiary: #242938;
+            --text-primary: #ffffff;
+            --text-secondary: #b4b4b4;
+            --text-muted: #6b7280;
+            --accent-primary: #00d4ff;
+            --accent-secondary: #0099cc;
+            --border-color: #2d3748;
+            --hover-bg: rgba(255, 255, 255, 0.05);
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: #f7f7f8;
-            color: #374151;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             min-height: 100vh;
             overflow-x: hidden;
         }
@@ -27,7 +43,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: #f7f7f8;
+            background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -35,12 +51,12 @@
         }
 
         .login-box {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
             padding: 48px 40px;
             text-align: center;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
             position: relative;
             max-width: 420px;
             width: 90%;
@@ -56,7 +72,7 @@
             width: 80px;
             height: 80px;
             margin: 0 auto 32px;
-            background: #10a37f;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -70,11 +86,11 @@
             font-size: 32px;
             font-weight: 600;
             margin-bottom: 12px;
-            color: #374151;
+            color: var(--text-primary);
         }
 
         .login-subtitle {
-            color: #6b7280;
+            color: var(--text-secondary);
             margin-bottom: 40px;
             font-size: 16px;
             line-height: 1.5;
@@ -88,9 +104,9 @@
 
         .google-login-btn, .demo-login-btn {
             width: 100%;
-            padding: 12px 24px;
-            border: 1px solid #d1d5db;
-            border-radius: 6px;
+            padding: 14px 24px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
@@ -99,24 +115,23 @@
             justify-content: center;
             gap: 12px;
             transition: all 0.2s ease;
-            background: white;
-            color: #374151;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
         }
 
         .google-login-btn:hover, .demo-login-btn:hover {
-            background: #f9fafb;
-            border-color: #9ca3af;
+            background: var(--hover-bg);
+            border-color: var(--accent-primary);
         }
 
         .demo-login-btn {
-            background: #10a37f;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
             color: white;
-            border-color: #10a37f;
+            border-color: var(--accent-primary);
         }
 
         .demo-login-btn:hover {
-            background: #0d9488;
-            border-color: #0d9488;
+            background: linear-gradient(135deg, var(--accent-secondary), #007399);
         }
 
         .google-icon {
@@ -129,7 +144,7 @@
             width: 18px;
             height: 18px;
             border: 2px solid #f3f3f3;
-            border-top: 2px solid #10a37f;
+            border-top: 2px solid var(--accent-primary);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -141,29 +156,29 @@
 
         .error-message, .success-message {
             padding: 12px;
-            border-radius: 6px;
+            border-radius: 8px;
             margin-top: 16px;
             font-size: 14px;
             display: none;
         }
 
         .error-message {
-            background: #fef2f2;
-            border: 1px solid #fecaca;
-            color: #dc2626;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--error);
+            color: var(--error);
         }
 
         .success-message {
-            background: #f0fdf4;
-            border: 1px solid #bbf7d0;
-            color: #16a34a;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
         }
 
         /* Main App Container */
         .app-container {
             height: 100vh;
             display: flex;
-            background: #f7f7f8;
+            background: var(--bg-primary);
             position: relative;
             opacity: 0;
             transition: opacity 0.5s ease;
@@ -181,7 +196,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.7);
             z-index: 999;
             opacity: 0;
             transition: opacity 0.3s ease;
@@ -194,13 +209,14 @@
 
         /* Sidebar */
         .sidebar {
-            width: 260px;
-            background: #171717;
+            width: 280px;
+            background: var(--bg-secondary);
             display: flex;
             flex-direction: column;
             transition: all 0.3s ease;
             position: relative;
             z-index: 1000;
+            border-right: 1px solid var(--border-color);
         }
 
         .sidebar.collapsed {
@@ -209,17 +225,17 @@
         }
 
         .sidebar-header {
-            padding: 16px;
-            border-bottom: 1px solid #2d2d2d;
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .new-chat-btn {
             width: 100%;
-            padding: 12px 16px;
-            background: transparent;
-            color: white;
-            border: 1px solid #4d4d4d;
-            border-radius: 6px;
+            padding: 14px 18px;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
@@ -227,50 +243,51 @@
             align-items: center;
             gap: 12px;
             transition: all 0.2s ease;
-            touch-action: manipulation;
         }
 
         .new-chat-btn:hover {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--hover-bg);
+            border-color: var(--accent-primary);
         }
 
         .conversations-section {
             flex: 1;
-            padding: 16px;
+            padding: 20px;
             overflow-y: auto;
         }
 
         .section-title {
             font-size: 12px;
-            font-weight: 500;
-            color: #8e8ea0;
+            font-weight: 600;
+            color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             padding: 0 12px;
         }
 
         .conversation-item {
             padding: 12px;
-            border-radius: 6px;
+            border-radius: 8px;
             margin-bottom: 2px;
             cursor: pointer;
             transition: all 0.2s ease;
-            color: #ececf1;
+            color: var(--text-secondary);
             font-size: 14px;
             display: flex;
             align-items: center;
             gap: 12px;
             position: relative;
-            touch-action: manipulation;
         }
 
         .conversation-item:hover {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--hover-bg);
+            color: var(--text-primary);
         }
 
         .conversation-item.active {
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--hover-bg);
+            color: var(--accent-primary);
         }
 
         .conversation-item .conversation-text {
@@ -284,7 +301,7 @@
             opacity: 0;
             background: none;
             border: none;
-            color: #8e8ea0;
+            color: var(--text-muted);
             cursor: pointer;
             padding: 4px;
             border-radius: 4px;
@@ -301,22 +318,22 @@
         }
 
         .delete-chat-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: #ef4444;
+            background: var(--hover-bg);
+            color: var(--error);
         }
 
         /* User Profile Section */
         .user-profile {
-            padding: 16px;
-            border-top: 1px solid #2d2d2d;
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
         .user-avatar {
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
         }
 
@@ -327,8 +344,8 @@
 
         .user-name {
             font-size: 14px;
-            font-weight: 500;
-            color: #ececf1;
+            font-weight: 600;
+            color: var(--text-primary);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -336,7 +353,7 @@
 
         .user-email {
             font-size: 12px;
-            color: #8e8ea0;
+            color: var(--text-muted);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -346,16 +363,15 @@
             padding: 8px;
             background: transparent;
             border: none;
-            color: #8e8ea0;
+            color: var(--text-muted);
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 6px;
             transition: all 0.2s ease;
-            touch-action: manipulation;
         }
 
         .logout-btn:hover {
-            background: rgba(255, 255, 255, 0.05);
-            color: #ececf1;
+            background: var(--hover-bg);
+            color: var(--text-primary);
         }
 
         /* Main Content */
@@ -363,17 +379,17 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            background: #f7f7f8;
+            background: var(--bg-primary);
             min-width: 0;
         }
 
         .chat-header {
             padding: 16px 24px;
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: white;
+            background: var(--bg-secondary);
         }
 
         .header-left {
@@ -383,28 +399,28 @@
         }
 
         .menu-toggle {
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border: none;
             background: transparent;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #374151;
+            color: var(--text-secondary);
             transition: all 0.2s ease;
-            touch-action: manipulation;
         }
 
         .menu-toggle:hover {
-            background: #f3f4f6;
+            background: var(--hover-bg);
+            color: var(--text-primary);
         }
 
         .chat-title {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
-            color: #374151;
+            color: var(--text-primary);
         }
 
         .header-controls {
@@ -414,23 +430,22 @@
         }
 
         .control-btn {
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border: none;
             background: transparent;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.2s ease;
-            color: #6b7280;
-            touch-action: manipulation;
+            color: var(--text-secondary);
         }
 
         .control-btn:hover {
-            background: #f3f4f6;
-            color: #374151;
+            background: var(--hover-bg);
+            color: var(--text-primary);
         }
 
         /* Chat Messages */
@@ -454,73 +469,73 @@
         }
 
         .welcome-icon {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 24px;
-            background: #10a37f;
+            width: 100px;
+            height: 100px;
+            margin-bottom: 32px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 32px;
+            font-size: 36px;
             font-weight: 700;
             color: white;
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
         }
 
         .welcome-title {
-            font-size: 32px;
+            font-size: 36px;
             font-weight: 600;
-            color: #374151;
+            color: var(--text-primary);
             margin-bottom: 16px;
         }
 
         .welcome-subtitle {
-            font-size: 16px;
-            color: #6b7280;
-            margin-bottom: 32px;
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 48px;
             line-height: 1.5;
         }
 
         .quick-actions {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
             width: 100%;
-            max-width: 600px;
+            max-width: 800px;
         }
 
         .quick-action {
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
             cursor: pointer;
             transition: all 0.2s ease;
             text-align: left;
-            touch-action: manipulation;
         }
 
         .quick-action:hover {
-            border-color: #d1d5db;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent-primary);
+            box-shadow: 0 4px 20px rgba(0, 212, 255, 0.1);
         }
 
         .quick-action h3 {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
-            color: #374151;
+            color: var(--text-primary);
             margin-bottom: 8px;
         }
 
         .quick-action p {
             font-size: 14px;
-            color: #6b7280;
+            color: var(--text-secondary);
             line-height: 1.4;
         }
 
         /* Message Bubbles */
         .message {
-            margin-bottom: 24px;
+            margin-bottom: 32px;
             animation: slideIn 0.3s ease;
         }
 
@@ -530,7 +545,7 @@
         }
 
         .message-wrapper {
-            max-width: 768px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 0 24px;
         }
@@ -554,39 +569,39 @@
         }
 
         .message.user .message-avatar {
-            background: #10a37f;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
         }
 
         .message.ai .message-avatar {
-            background: #10a37f;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
             color: white;
         }
 
         .message-text {
             flex: 1;
             min-width: 0;
-            padding-top: 6px;
+            padding-top: 4px;
         }
 
         .message.user .message-text {
             background: transparent;
-            color: #374151;
+            color: var(--text-primary);
             font-size: 16px;
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
         .message.ai .message-text {
             background: transparent;
-            color: #374151;
+            color: var(--text-primary);
             font-size: 16px;
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
         .message-actions {
             display: flex;
             gap: 8px;
-            margin-top: 8px;
+            margin-top: 12px;
             opacity: 0;
             transition: opacity 0.2s ease;
         }
@@ -596,24 +611,24 @@
         }
 
         .action-btn {
-            background: none;
-            border: none;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
             cursor: pointer;
-            padding: 6px;
-            border-radius: 4px;
+            padding: 8px;
+            border-radius: 6px;
             transition: all 0.2s ease;
-            color: #6b7280;
-            width: 24px;
-            height: 24px;
+            color: var(--text-secondary);
+            width: 32px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
-            touch-action: manipulation;
         }
 
         .action-btn:hover {
-            color: #374151;
-            background: #f3f4f6;
+            color: var(--text-primary);
+            background: var(--hover-bg);
+            border-color: var(--accent-primary);
         }
 
         /* AI Response Formatting */
@@ -622,65 +637,69 @@
         }
 
         .ai-response h1, .ai-response h2, .ai-response h3 {
-            color: #374151;
-            margin: 16px 0 8px 0;
+            color: var(--text-primary);
+            margin: 20px 0 12px 0;
             font-weight: 600;
         }
 
-        .ai-response h1 { font-size: 20px; }
-        .ai-response h2 { font-size: 18px; }
-        .ai-response h3 { font-size: 16px; }
+        .ai-response h1 { font-size: 24px; }
+        .ai-response h2 { font-size: 20px; }
+        .ai-response h3 { font-size: 18px; }
 
         .ai-response p {
-            margin: 8px 0;
-            line-height: 1.6;
+            margin: 12px 0;
+            line-height: 1.7;
+            color: var(--text-primary);
         }
 
         .ai-response ul, .ai-response ol {
-            margin: 8px 0;
-            padding-left: 20px;
+            margin: 12px 0;
+            padding-left: 24px;
         }
 
         .ai-response li {
-            margin: 4px 0;
+            margin: 8px 0;
+            color: var(--text-primary);
         }
 
         .ai-response code {
-            background: #f3f4f6;
-            color: #374151;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            background: var(--bg-tertiary);
+            color: var(--accent-primary);
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, monospace;
             font-size: 14px;
+            border: 1px solid var(--border-color);
         }
 
         .ai-response pre {
-            background: #1f2937;
-            color: #f9fafb;
-            padding: 16px;
-            border-radius: 8px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 20px;
+            border-radius: 12px;
             overflow-x: auto;
-            margin: 16px 0;
-            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            margin: 20px 0;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, monospace;
             font-size: 14px;
         }
 
         .ai-response blockquote {
-            border-left: 4px solid #d1d5db;
-            padding-left: 16px;
-            margin: 16px 0;
-            color: #6b7280;
+            border-left: 4px solid var(--accent-primary);
+            padding-left: 20px;
+            margin: 20px 0;
+            color: var(--text-secondary);
             font-style: italic;
         }
 
         /* Thinking Indicator */
         .thinking-indicator {
-            margin-bottom: 24px;
+            margin-bottom: 32px;
             animation: slideIn 0.3s ease;
         }
 
         .thinking-content {
-            max-width: 768px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 0 24px;
             display: flex;
@@ -692,7 +711,7 @@
             width: 32px;
             height: 32px;
             border-radius: 50%;
-            background: #10a37f;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
             display: flex;
             align-items: center;
             justify-content: center;
@@ -702,9 +721,9 @@
         }
 
         .thinking-text {
-            color: #6b7280;
+            color: var(--text-secondary);
             font-size: 16px;
-            padding-top: 6px;
+            padding-top: 4px;
         }
 
         .thinking-dots {
@@ -714,10 +733,10 @@
         }
 
         .thinking-dot {
-            width: 4px;
-            height: 4px;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
-            background: #9ca3af;
+            background: var(--accent-primary);
             animation: thinkingDots 1.4s infinite ease-in-out;
         }
 
@@ -726,18 +745,18 @@
 
         @keyframes thinkingDots {
             0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
-            40% { transform: scale(1); opacity: 1; }
+            40% { transform: scale(1.2); opacity: 1; }
         }
 
         /* Input Area */
         .chat-input {
             padding: 24px;
-            background: white;
-            border-top: 1px solid #e5e7eb;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
         }
 
         .input-container {
-            max-width: 768px;
+            max-width: 800px;
             margin: 0 auto;
             position: relative;
         }
@@ -745,17 +764,17 @@
         .input-wrapper {
             display: flex;
             align-items: flex-end;
-            background: white;
-            border: 1px solid #d1d5db;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 12px 16px;
-            box-shadow: 0 0 0 0 rgba(16, 163, 127, 0);
+            padding: 14px 18px;
+            box-shadow: 0 0 0 0 var(--accent-primary);
             transition: all 0.2s ease;
         }
 
         .input-wrapper:focus-within {
-            border-color: #10a37f;
-            box-shadow: 0 0 0 3px rgba(16, 163, 127, 0.1);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.2);
         }
 
         .message-input {
@@ -766,14 +785,14 @@
             font-family: inherit;
             resize: none;
             background: transparent;
-            color: #374151;
+            color: var(--text-primary);
             line-height: 1.5;
             max-height: 120px;
             min-height: 24px;
         }
 
         .message-input::placeholder {
-            color: #9ca3af;
+            color: var(--text-muted);
         }
 
         .input-actions {
@@ -784,152 +803,61 @@
         }
 
         .input-btn {
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.2s ease;
             flex-shrink: 0;
-            touch-action: manipulation;
         }
 
         .mic-btn {
             background: transparent;
-            color: #6b7280;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
         }
 
         .mic-btn:hover {
-            background: #f3f4f6;
-            color: #374151;
+            background: var(--hover-bg);
+            color: var(--text-primary);
+            border-color: var(--accent-primary);
         }
 
         .mic-btn.listening {
-            background: #ef4444;
+            background: var(--accent-primary);
             color: white;
+            border-color: var(--accent-primary);
         }
 
         .send-btn {
-            background: #10a37f;
+            background: var(--accent-primary);
             color: white;
+            border: 1px solid var(--accent-primary);
         }
 
         .send-btn:hover {
-            background: #0d9488;
+            background: var(--accent-secondary);
         }
 
         .send-btn:disabled {
-            background: #d1d5db;
-            color: #9ca3af;
+            background: var(--bg-tertiary);
+            color: var(--text-muted);
             cursor: not-allowed;
+            border-color: var(--border-color);
         }
 
-        /* Premium Modal */
-        .premium-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 10001;
-        }
-
-        .premium-modal.active {
-            display: flex;
-        }
-
-        .premium-modal-content {
-            background: white;
-            border-radius: 12px;
-            padding: 32px;
-            max-width: 450px;
-            width: 90%;
-            text-align: center;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-        }
-
-        .premium-modal h2 {
-            color: #374151;
-            margin-bottom: 16px;
-            font-size: 24px;
-            font-weight: 600;
-        }
-
-        .premium-features {
-            text-align: left;
-            margin: 24px 0;
-        }
-
-        .premium-features li {
-            color: #374151;
-            margin: 8px 0;
-            list-style: none;
-            position: relative;
-            padding-left: 24px;
-        }
-
-        .premium-features li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: #10a37f;
-            font-weight: bold;
-        }
-
-        .premium-price {
-            font-size: 28px;
-            font-weight: bold;
-            color: #10a37f;
-            margin: 20px 0;
-        }
-
-        .upi-payment-btn {
-            width: 100%;
-            padding: 12px;
-            background: #10a37f;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            margin-bottom: 12px;
-            transition: background 0.2s ease;
-        }
-
-        .upi-payment-btn:hover {
-            background: #0d9488;
-        }
-
-        .modal-close-btn {
-            background: transparent;
-            color: #6b7280;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .modal-close-btn:hover {
-            background: #f3f4f6;
-        }
-
-        /* Voice Chat Interface */
+        /* Voice Chat Interface - Matching Your Image */
         .voice-chat-interface {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.9);
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
             display: none;
             align-items: center;
             justify-content: center;
@@ -941,63 +869,469 @@
             display: flex;
         }
 
-        .voice-avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: #10a37f;
+        .voice-chat-content {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .voice-sidebar-left {
+            width: 320px;
+            padding: 40px 24px;
+            background: rgba(26, 31, 46, 0.8);
+            border-right: 1px solid var(--border-color);
+            overflow-y: auto;
+        }
+
+        .voice-sidebar-right {
+            width: 320px;
+            padding: 40px 24px;
+            background: rgba(26, 31, 46, 0.8);
+            border-left: 1px solid var(--border-color);
+            overflow-y: auto;
+        }
+
+        .voice-center {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            position: relative;
+        }
+
+        .voice-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 24px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .voice-header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .ai-assistant-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .user-indicator {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .voice-header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .premium-badge {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #1f2937;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .voice-orb-container {
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 24px;
-            font-size: 48px;
-            font-weight: 700;
-            color: white;
+            margin-bottom: 60px;
         }
 
-        .voice-avatar.speaking {
-            animation: voicePulse 1s ease-in-out infinite;
+        .voice-orb {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.3) 0%, rgba(0, 153, 204, 0.1) 70%, transparent 100%);
+            border: 2px solid rgba(0, 212, 255, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        @keyframes voicePulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+        .voice-orb.speaking {
+            animation: orbPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes orbPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(0, 212, 255, 0.3); }
+            50% { transform: scale(1.05); box-shadow: 0 0 50px rgba(0, 212, 255, 0.6); }
+        }
+
+        .voice-waveform {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+        }
+
+        .wave-bar {
+            width: 4px;
+            background: linear-gradient(to top, var(--accent-primary), var(--accent-secondary));
+            border-radius: 2px;
+            animation: waveAnimation 1.5s ease-in-out infinite;
+        }
+
+        .wave-bar:nth-child(1) { height: 20px; animation-delay: 0s; }
+        .wave-bar:nth-child(2) { height: 30px; animation-delay: 0.1s; }
+        .wave-bar:nth-child(3) { height: 40px; animation-delay: 0.2s; }
+        .wave-bar:nth-child(4) { height: 50px; animation-delay: 0.3s; }
+        .wave-bar:nth-child(5) { height: 60px; animation-delay: 0.4s; }
+        .wave-bar:nth-child(6) { height: 70px; animation-delay: 0.5s; }
+        .wave-bar:nth-child(7) { height: 60px; animation-delay: 0.6s; }
+        .wave-bar:nth-child(8) { height: 50px; animation-delay: 0.7s; }
+        .wave-bar:nth-child(9) { height: 40px; animation-delay: 0.8s; }
+        .wave-bar:nth-child(10) { height: 30px; animation-delay: 0.9s; }
+        .wave-bar:nth-child(11) { height: 20px; animation-delay: 1s; }
+
+        @keyframes waveAnimation {
+            0%, 100% { transform: scaleY(0.3); opacity: 0.7; }
+            50% { transform: scaleY(1); opacity: 1; }
         }
 
         .voice-status {
-            font-size: 18px;
-            color: white;
-            margin-bottom: 24px;
+            font-size: 24px;
+            color: var(--accent-primary);
+            margin-bottom: 40px;
             text-align: center;
+            font-weight: 500;
+        }
+
+        .voice-question {
+            font-size: 18px;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 40px;
+            max-width: 600px;
+            line-height: 1.5;
         }
 
         .voice-controls {
+            position: absolute;
+            bottom: 80px;
             display: flex;
-            gap: 16px;
+            gap: 20px;
             align-items: center;
         }
 
         .voice-control-btn {
-            width: 48px;
-            height: 48px;
-            border: none;
+            width: 60px;
+            height: 60px;
+            border: 2px solid var(--border-color);
             border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: all 0.2s ease;
-            font-size: 20px;
+            font-size: 24px;
+            background: var(--bg-secondary);
         }
 
         .voice-end-btn {
-            background: #ef4444;
+            background: var(--error);
+            border-color: var(--error);
             color: white;
         }
 
         .voice-end-btn:hover {
             background: #dc2626;
+            border-color: #dc2626;
+        }
+
+        .voice-mic-btn {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+            font-size: 28px;
+        }
+
+        .voice-mic-btn:hover {
+            background: var(--accent-secondary);
+        }
+
+        /* Sidebar Content */
+        .sidebar-section {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+
+        .history-item, .search-item {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+        }
+
+        .history-category {
+            font-size: 12px;
+            color: var(--accent-primary);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .history-progress {
+            width: 100%;
+            height: 4px;
+            background: var(--bg-primary);
+            border-radius: 2px;
+            margin-top: 8px;
+            position: relative;
+        }
+
+        .history-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            border-radius: 2px;
+            width: 45%;
+        }
+
+        .search-result-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .search-thumbnail {
+            width: 60px;
+            height: 40px;
+            background: var(--bg-primary);
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+
+        .search-info {
+            flex: 1;
+        }
+
+        .search-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .search-subtitle {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .play-btn {
+            width: 32px;
+            height: 32px;
+            background: var(--accent-primary);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        /* Navigation */
+        .voice-navigation {
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-btn {
+            width: 48px;
+            height: 48px;
+            border: none;
+            background: var(--bg-secondary);
+            border-radius: 50%;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn.active {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .nav-btn:hover {
+            background: var(--hover-bg);
+            color: var(--text-primary);
+        }
+
+        /* Premium Section in Sidebar */
+        .premium-section {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .premium-btn {
+            width: 100%;
+            padding: 14px 18px;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #1f2937;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .premium-btn:hover {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        /* Premium Modal */
+        .premium-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+        }
+
+        .premium-modal.active {
+            display: flex;
+        }
+
+        .premium-modal-content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .premium-modal h2 {
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .premium-features {
+            text-align: left;
+            margin: 32px 0;
+        }
+
+        .premium-features li {
+            color: var(--text-primary);
+            margin: 12px 0;
+            list-style: none;
+            position: relative;
+            padding-left: 32px;
+            font-size: 16px;
+        }
+
+        .premium-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .premium-price {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--accent-primary);
+            margin: 24px 0;
+        }
+
+        .upi-payment-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 16px;
+            transition: background 0.2s ease;
+        }
+
+        .upi-payment-btn:hover {
+            background: var(--accent-secondary);
+        }
+
+        .modal-close-btn {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close-btn:hover {
+            background: var(--hover-bg);
+            color: var(--text-primary);
         }
 
         /* Mobile Responsive */
@@ -1025,55 +1359,44 @@
                 margin-left: 0;
             }
 
-            .chat-header {
-                padding: 12px 16px;
+            .voice-chat-content {
+                flex-direction: column;
             }
 
-            .chat-title {
-                font-size: 16px;
+            .voice-sidebar-left,
+            .voice-sidebar-right {
+                width: 100%;
+                height: 200px;
+                padding: 20px;
+            }
+
+            .voice-center {
+                padding: 20px;
+            }
+
+            .voice-orb {
+                width: 250px;
+                height: 250px;
+            }
+
+            .voice-waveform {
+                width: 150px;
+                height: 60px;
+            }
+
+            .welcome-title {
+                font-size: 28px;
+            }
+
+            .welcome-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 28px;
             }
 
             .quick-actions {
                 grid-template-columns: 1fr;
-                gap: 12px;
-            }
-
-            .welcome-screen {
-                padding: 20px 16px;
-            }
-
-            .welcome-title {
-                font-size: 24px;
-            }
-
-            .welcome-subtitle {
-                font-size: 14px;
-            }
-
-            .welcome-icon {
-                width: 60px;
-                height: 60px;
-                font-size: 24px;
-            }
-
-            .message-wrapper {
-                padding: 0 16px;
-            }
-
-            .chat-input {
-                padding: 16px;
-            }
-
-            .message-input {
-                font-size: 16px;
-            }
-
-            .login-box {
-                padding: 32px 24px;
-            }
-
-            .login-title {
-                font-size: 28px;
+                gap: 16px;
             }
 
             .delete-chat-btn {
@@ -1083,88 +1406,34 @@
             .message-actions {
                 opacity: 1;
             }
-
-            .voice-avatar {
-                width: 100px;
-                height: 100px;
-                font-size: 40px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .chat-header {
-                padding: 12px 16px;
-            }
-
-            .message-wrapper {
-                padding: 0 12px;
-            }
-
-            .chat-input {
-                padding: 12px;
-            }
-
-            .login-box {
-                padding: 24px 20px;
-            }
-
-            .login-title {
-                font-size: 24px;
-            }
         }
 
         /* Scrollbar Styling */
         .conversations-section::-webkit-scrollbar,
-        .chat-messages::-webkit-scrollbar {
-            width: 4px;
+        .chat-messages::-webkit-scrollbar,
+        .voice-sidebar-left::-webkit-scrollbar,
+        .voice-sidebar-right::-webkit-scrollbar {
+            width: 6px;
         }
 
         .conversations-section::-webkit-scrollbar-track,
-        .chat-messages::-webkit-scrollbar-track {
+        .chat-messages::-webkit-scrollbar-track,
+        .voice-sidebar-left::-webkit-scrollbar-track,
+        .voice-sidebar-right::-webkit-scrollbar-track {
             background: transparent;
         }
 
         .conversations-section::-webkit-scrollbar-thumb,
-        .chat-messages::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 2px;
-        }
-
-        .chat-messages::-webkit-scrollbar-thumb {
-            background: #e5e7eb;
+        .chat-messages::-webkit-scrollbar-thumb,
+        .voice-sidebar-left::-webkit-scrollbar-thumb,
+        .voice-sidebar-right::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 3px;
         }
 
         /* Hide app initially */
         .hidden {
             display: none !important;
-        }
-
-        /* Premium Section in Sidebar */
-        .premium-section {
-            padding: 16px;
-            border-bottom: 1px solid #2d2d2d;
-        }
-
-        .premium-btn {
-            width: 100%;
-            padding: 12px 16px;
-            background: linear-gradient(135deg, #fbbf24, #f59e0b);
-            color: #1f2937;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.2s ease;
-            touch-action: manipulation;
-        }
-
-        .premium-btn:hover {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
         }
     </style>
 </head>
@@ -1176,8 +1445,8 @@
                 DB
             </div>
             
-            <h1 class="login-title">Welcome back</h1>
-            <p class="login-subtitle">Sign in to your DeepBolt AI account</p>
+            <h1 class="login-title">Welcome to DeepBolt AI</h1>
+            <p class="login-subtitle">Sign in to access advanced AI assistance</p>
             
             <div class="login-buttons">
                 <!-- Google Sign-In Button -->
@@ -1234,6 +1503,7 @@
             </div>
 
             <div class="conversations-section">
+                <div class="section-title">Recent Chats</div>
                 <div id="conversationsList">
                     <!-- Conversations will be added here -->
                 </div>
@@ -1245,7 +1515,7 @@
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"></polygon>
                     </svg>
-                    Upgrade plan
+                    Upgrade to Pro
                 </button>
             </div>
 
@@ -1272,7 +1542,7 @@
             <div class="chat-header">
                 <div class="header-left">
                     <button class="menu-toggle" onclick="toggleSidebar()">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <line x1="3" y1="6" x2="21" y2="6"></line>
                             <line x1="3" y1="12" x2="21" y2="12"></line>
                             <line x1="3" y1="18" x2="21" y2="18"></line>
@@ -1283,14 +1553,14 @@
 
                 <div class="header-controls">
                     <button class="control-btn" onclick="regenerateResponse()" title="Regenerate">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polyline points="23 4 23 10 17 10"></polyline>
                             <polyline points="1 20 1 14 7 14"></polyline>
                             <path d="m3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
                         </svg>
                     </button>
                     <button class="control-btn" onclick="exportChat()" title="Export">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                             <polyline points="7,10 12,15 17,10"></polyline>
                             <line x1="12" y1="15" x2="12" y2="3"></line>
@@ -1306,22 +1576,23 @@
                         DB
                     </div>
                     <h1 class="welcome-title">How can I help you today?</h1>
+                    <p class="welcome-subtitle">I'm DeepBolt AI, your advanced AI assistant ready to help with any task.</p>
                     
                     <div class="quick-actions">
                         <div class="quick-action" onclick="askQuestion('What are your capabilities and how can you help me?')">
-                            <h3>🚀 Capabilities</h3>
+                            <h3>💡 Capabilities</h3>
                             <p>Discover my advanced features and how I can assist you</p>
                         </div>
                         <div class="quick-action" onclick="askQuestion('Create a React component with TypeScript')">
-                            <h3>💻 Coding Help</h3>
-                            <p>Get assistance with programming, debugging, and code review</p>
+                            <h3>💻 Code & Development</h3>
+                            <p>Get help with programming, debugging, and code review</p>
                         </div>
                         <div class="quick-action" onclick="askQuestion('Explain quantum computing in simple terms')">
-                            <h3>🧠 Learning</h3>
-                            <p>Understand complex topics with clear, detailed explanations</p>
+                            <h3>📚 Learning & Analysis</h3>
+                            <p>Understand complex topics with clear explanations</p>
                         </div>
                         <div class="quick-action" onclick="askQuestion('Help me write a professional email')">
-                            <h3>✍️ Writing</h3>
+                            <h3>✍️ Writing & Content</h3>
                             <p>Create and improve written content for any purpose</p>
                         </div>
                     </div>
@@ -1342,7 +1613,7 @@
                         ></textarea>
                         <div class="input-actions">
                             <button class="input-btn mic-btn" id="micBtn" onclick="toggleSpeechRecognition()" title="Voice Input">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
                                     <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
                                     <line x1="12" y1="19" x2="12" y2="23"></line>
@@ -1350,7 +1621,7 @@
                                 </svg>
                             </button>
                             <button class="input-btn send-btn" id="sendBtn" onclick="sendMessage()" title="Send">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <line x1="22" y1="2" x2="11" y2="13"></line>
                                     <polygon points="22,2 15,22 11,13 2,9 22,2"></polygon>
                                 </svg>
@@ -1364,25 +1635,227 @@
 
     <!-- Voice Chat Interface -->
     <div class="voice-chat-interface" id="voiceChatInterface">
-        <div class="voice-avatar" id="voiceAvatar">
-            DB
-        </div>
-        <div class="voice-status" id="voiceStatus">Listening...</div>
-        <div class="voice-controls">
-            <button class="voice-control-btn voice-end-btn" onclick="endVoiceChat()">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-            </button>
+        <div class="voice-chat-content">
+            <!-- Left Sidebar -->
+            <div class="voice-sidebar-left">
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title">Previous Search History</div>
+                    <div class="history-item">
+                        <div class="history-category">WEATHER</div>
+                        <div class="history-progress">
+                            <div class="history-progress-bar"></div>
+                        </div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-category">MEDICAL EQUIPMENT</div>
+                        <div class="history-progress">
+                            <div class="history-progress-bar"></div>
+                        </div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-category">TRAFFIC SIGNALS</div>
+                        <div class="history-progress">
+                            <div class="history-progress-bar"></div>
+                        </div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-category">PATH RECOGNITION</div>
+                        <div class="history-progress">
+                            <div class="history-progress-bar"></div>
+                        </div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-category">ALARM</div>
+                        <div class="history-progress">
+                            <div class="history-progress-bar"></div>
+                        </div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-category">FACTS</div>
+                        <div class="history-progress">
+                            <div class="history-progress-bar"></div>
+                        </div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-category">MOVIES</div>
+                        <div class="history-progress">
+                            <div class="history-progress-bar"></div>
+                        </div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-category">CARTOONS</div>
+                        <div class="history-progress">
+                            <div class="history-progress-bar"></div>
+                        </div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-category">RESTAURANTS</div>
+                        <div class="history-progress">
+                            <div class="history-progress-bar"></div>
+                        </div>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-category">CLOTH STORES</div>
+                        <div class="history-progress">
+                            <div class="history-progress-bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Center Voice Area -->
+            <div class="voice-center">
+                <div class="voice-header">
+                    <div class="voice-header-left">
+                        <div class="ai-assistant-title">🤖 AI Assistant</div>
+                        <div class="user-indicator">
+                            <img src="" id="voiceUserAvatar" width="20" height="20" style="border-radius: 50%;">
+                            <span id="voiceUserName">User</span>
+                        </div>
+                    </div>
+                    <div class="voice-header-right">
+                        <button class="control-btn" title="Notifications">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                            </svg>
+                        </button>
+                        <button class="control-btn" title="Settings">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1 1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                            </svg>
+                        </button>
+                        <div class="premium-badge">PREMIUM</div>
+                    </div>
+                </div>
+
+                <div class="voice-orb-container">
+                    <div class="voice-orb" id="voiceOrb">
+                        <div class="voice-waveform" id="voiceWaveform">
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="voice-status" id="voiceStatus">Listening...</div>
+                <div class="voice-question" id="voiceQuestion">What's the price of hoverboard...</div>
+
+                <div class="voice-controls">
+                    <button class="voice-control-btn voice-end-btn" onclick="endVoiceChat()">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="voice-navigation">
+                    <button class="nav-btn" onclick="goHome()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        </svg>
+                    </button>
+                    <button class="nav-btn active">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <circle cx="12" cy="12" r="6"></circle>
+                        </svg>
+                    </button>
+                    <button class="nav-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                    </button>
+                    <button class="nav-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Sidebar -->
+            <div class="voice-sidebar-right">
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title">Searched By Command</div>
+                    <div style="margin-bottom: 20px;">
+                        <div style="color: var(--accent-primary); font-size: 14px; font-weight: 600; margin-bottom: 8px;">Title</div>
+                        <div style="color: var(--text-primary); font-size: 14px;">Hover Board</div>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <div style="color: var(--accent-primary); font-size: 14px; font-weight: 600; margin-bottom: 8px;">Category</div>
+                        <div style="color: var(--text-secondary); font-size: 14px;">Personal Transporter</div>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <div style="color: var(--accent-primary); font-size: 14px; font-weight: 600; margin-bottom: 8px;">Search Results</div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div style="color: var(--text-secondary); font-size: 14px;">View All</div>
+                            <div style="color: var(--accent-primary); font-size: 18px; font-weight: 600;">92.8%</div>
+                        </div>
+                        <div style="color: var(--text-secondary); font-size: 12px; margin-top: 4px;">View Top Results</div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title">Videos</div>
+                    <div class="search-result-item">
+                        <div class="search-thumbnail"></div>
+                        <div class="search-info">
+                            <div class="search-title">Hover Board Review</div>
+                            <div class="search-subtitle">YOUTUBE</div>
+                        </div>
+                        <button class="play-btn">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon points="5,3 19,12 5,21"></polygon>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="search-result-item">
+                        <div class="search-thumbnail"></div>
+                        <div class="search-info">
+                            <div class="search-title">Hover Board Unboxing</div>
+                            <div class="search-subtitle">YOUTUBE</div>
+                        </div>
+                        <button class="play-btn">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon points="5,3 19,12 5,21"></polygon>
+                            </svg>
+                        </button>
+                    </div>
+                    <div style="text-align: center; margin-top: 16px;">
+                        <a href="#" style="color: var(--accent-primary); font-size: 12px; text-decoration: none;">View All</a>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <div class="sidebar-section-title">Nearest Stores</div>
+                    <div style="width: 100%; height: 120px; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 8px; position: relative;">
+                        <div style="position: absolute; top: 8px; right: 8px; background: var(--bg-primary); padding: 4px 8px; border-radius: 4px; font-size: 12px; color: var(--text-primary);">2.4</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Premium Modal -->
     <div class="premium-modal" id="premiumModal">
         <div class="premium-modal-content">
-            <h2>🌟 DeepBolt AI Premium</h2>
-            <p style="color: #6b7280; margin-bottom: 24px;">Unlock the full potential of advanced AI</p>
+            <h2>🚀 DeepBolt AI Pro</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 24px;">Unlock the full potential of advanced AI</p>
             
             <ul class="premium-features">
                 <li>Unlimited AI conversations</li>
@@ -1656,6 +2129,10 @@
             document.getElementById('userEmail').textContent = user.email;
             document.getElementById('userAvatar').src = user.photoURL || 'https://via.placeholder.com/32';
             
+            // Update voice chat user info
+            document.getElementById('voiceUserName').textContent = user.displayName || 'User';
+            document.getElementById('voiceUserAvatar').src = user.photoURL || 'https://via.placeholder.com/32';
+            
             // Hide login and show app
             loginContainer.style.display = 'none';
             appContainer.classList.remove('hidden');
@@ -1712,22 +2189,23 @@
                         DB
                     </div>
                     <h1 class="welcome-title">How can I help you today?</h1>
+                    <p class="welcome-subtitle">I'm DeepBolt AI, your advanced AI assistant ready to help with any task.</p>
                     
                     <div class="quick-actions">
                         <div class="quick-action" onclick="askQuestion('What are your capabilities and how can you help me?')">
-                            <h3>🚀 Capabilities</h3>
+                            <h3>💡 Capabilities</h3>
                             <p>Discover my advanced features and how I can assist you</p>
                         </div>
                         <div class="quick-action" onclick="askQuestion('Create a React component with TypeScript')">
-                            <h3>💻 Coding Help</h3>
-                            <p>Get assistance with programming, debugging, and code review</p>
+                            <h3>💻 Code & Development</h3>
+                            <p>Get help with programming, debugging, and code review</p>
                         </div>
                         <div class="quick-action" onclick="askQuestion('Explain quantum computing in simple terms')">
-                            <h3>🧠 Learning</h3>
-                            <p>Understand complex topics with clear, detailed explanations</p>
+                            <h3>📚 Learning & Analysis</h3>
+                            <p>Understand complex topics with clear explanations</p>
                         </div>
                         <div class="quick-action" onclick="askQuestion('Help me write a professional email')">
-                            <h3>✍️ Writing</h3>
+                            <h3>✍️ Writing & Content</h3>
                             <p>Create and improve written content for any purpose</p>
                         </div>
                     </div>
@@ -1735,7 +2213,7 @@
             `;
         }
 
-        // Enhanced text formatting function with better code highlighting
+        // Enhanced text formatting function
         function formatAIResponse(text) {
             // Handle code blocks first
             text = text.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
@@ -1790,27 +2268,11 @@
         function enhancePrompt(message) {
             // Check if asking about owner
             if (message.toLowerCase().includes('owner') || message.toLowerCase().includes('creator') || message.toLowerCase().includes('who made you')) {
-                return `When asked about my owner or creator, I should respond that "My owner and creator is Amber Mansoor ". Now respond to: "${message}"`;
+                return `When asked about my owner or creator, I should respond that "My owner and creator is Amber Mansoor". Now provide a direct answer to: "${message}"`;
             }
 
-            // Check for code requests
-            const codeKeywords = ['code', 'function', 'class', 'component', 'script', 'program', 'algorithm', 'app', 'website', 'api'];
-            const isCodeRequest = codeKeywords.some(keyword => message.toLowerCase().includes(keyword));
-
-            if (isCodeRequest) {
-                return `You are an expert programmer. Provide clean, well-commented, production-ready code with proper formatting and best practices. Include explanations for complex parts. Respond to: "${message}"`;
-            }
-
-            // Check for explanation requests
-            const explainKeywords = ['explain', 'how', 'what is', 'define', 'describe', 'tell me about'];
-            const isExplanationRequest = explainKeywords.some(keyword => message.toLowerCase().includes(keyword));
-
-            if (isExplanationRequest) {
-                return `Provide a comprehensive, well-structured explanation with examples where appropriate. Use clear headings and bullet points for better readability. Respond to: "${message}"`;
-            }
-
-            // Default enhancement
-            return `Provide a helpful, detailed, and well-formatted response to: "${message}"`;
+            // Default direct response prompt
+            return `Provide a direct, helpful, and comprehensive answer to: "${message}". Be concise but thorough.`;
         }
 
         // App functions
@@ -2007,9 +2469,23 @@
                 speakBtn.onclick = function() {
                     speakText(content);
                 };
+
+                const voiceBtn = document.createElement('button');
+                voiceBtn.className = 'action-btn';
+                voiceBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                    <line x1="12" y1="19" x2="12" y2="23"></line>
+                    <line x1="8" y1="23" x2="16" y2="23"></line>
+                </svg>`;
+                
+                voiceBtn.onclick = function() {
+                    startVoiceChat();
+                };
                 
                 actionsDiv.appendChild(copyBtn);
                 actionsDiv.appendChild(speakBtn);
+                actionsDiv.appendChild(voiceBtn);
                 messageText.appendChild(actionsDiv);
             }
 
@@ -2222,9 +2698,22 @@
                 speakBtn.onclick = function() {
                     speakText(content);
                 };
+
+                const voiceBtn = document.createElement('button');
+                voiceBtn.className = 'action-btn';
+                voiceBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                    <line x1="12" y1="19" x2="12" y2="23"></line>
+                    <line x1="8" y1="23" x2="16" y2="23"></line>
+                </svg>`;
+                voiceBtn.onclick = function() {
+                    startVoiceChat();
+                };
                 
                 actionsDiv.appendChild(copyBtn);
                 actionsDiv.appendChild(speakBtn);
+                actionsDiv.appendChild(voiceBtn);
                 messageText.appendChild(actionsDiv);
             }
 
@@ -2301,33 +2790,32 @@
         }
 
         // Voice Chat Functions
-        function toggleVoiceChat() {
-            if (isVoiceChatActive) {
-                endVoiceChat();
-            } else {
-                startVoiceChat();
-            }
-        }
-
         function startVoiceChat() {
             isVoiceChatActive = true;
             const voiceChatInterface = document.getElementById('voiceChatInterface');
+            const voiceOrb = document.getElementById('voiceOrb');
             
             voiceChatInterface.classList.add('active');
+            
+            // Update voice question with current context
+            updateVoiceQuestion();
             
             // Start listening
             if (recognition) {
                 recognition.start();
             }
+            
+            // Start orb animation
+            voiceOrb.classList.add('speaking');
         }
 
         function endVoiceChat() {
             isVoiceChatActive = false;
             const voiceChatInterface = document.getElementById('voiceChatInterface');
-            const voiceAvatar = document.getElementById('voiceAvatar');
+            const voiceOrb = document.getElementById('voiceOrb');
             
             voiceChatInterface.classList.remove('active');
-            voiceAvatar.classList.remove('speaking');
+            voiceOrb.classList.remove('speaking');
             
             // Stop listening and speaking
             if (recognition) {
@@ -2336,6 +2824,25 @@
             if (currentUtterance) {
                 speechSynthesis.cancel();
             }
+        }
+
+        function updateVoiceQuestion() {
+            const voiceQuestion = document.getElementById('voiceQuestion');
+            const examples = [
+                "What's the price of hoverboard...",
+                "How do I create a React component...",
+                "Explain quantum computing to me...",
+                "Write a professional email...",
+                "What's the weather like today...",
+                "Help me debug this code..."
+            ];
+            
+            const randomQuestion = examples[Math.floor(Math.random() * examples.length)];
+            voiceQuestion.textContent = randomQuestion;
+        }
+
+        function goHome() {
+            endVoiceChat();
         }
 
         // Speech recognition
@@ -2386,6 +2893,7 @@
 
         function processVoiceCommand(transcript) {
             document.getElementById('voiceStatus').textContent = 'Processing...';
+            document.getElementById('voiceQuestion').textContent = transcript;
             
             // Add the voice message and get AI response
             if (!currentConversationId) {
@@ -2429,13 +2937,14 @@
                 
                 if (isVoiceChatActive) {
                     currentUtterance.onstart = function() {
-                        document.getElementById('voiceAvatar').classList.add('speaking');
+                        document.getElementById('voiceOrb').classList.add('speaking');
                         document.getElementById('voiceStatus').textContent = 'Speaking...';
                     };
                     
                     currentUtterance.onend = function() {
-                        document.getElementById('voiceAvatar').classList.remove('speaking');
+                        document.getElementById('voiceOrb').classList.remove('speaking');
                         document.getElementById('voiceStatus').textContent = 'Listening...';
+                        updateVoiceQuestion();
                     };
                 }
                 
